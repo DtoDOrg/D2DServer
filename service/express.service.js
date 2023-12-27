@@ -6,6 +6,9 @@ const PORT = CONFIG.PORT
 export const startServer = (app) => {
   app.use(cors());
   app.use(express.json());
+  app.get('/', (req,res)=>{
+    res.send('D2D server health is good')
+  })
   app.use('/otp', OtpRouter)
   app.listen(PORT, () => {
     console.log(`App is running on Port ${PORT}`)
