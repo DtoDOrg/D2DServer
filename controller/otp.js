@@ -1,45 +1,39 @@
 import { FormattedData } from "../helper/formattedResponse.js";
 import OtpService from "../service/otp.service.js";
 
-class Otp {
-    constructor() {
-        this.service = new OtpService();
+const otpService = new OtpService();
+export const getOtp = async (req, res) => {
+    try {
+        const { mobileNo } = req.body;
+        const resData = await otpService.getOtp(mobileNo);
+        res.status(200).json(resData);
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(FormattedData(false, 'internal error'))
     }
-
-
-    getOtp = async (req, res) => {
-        try {
-            const { mobileNo } = req.body;
-            const resData = await this.service.getOtp(mobileNo);
-            res.status(200).json(resData);
-
-        } catch (error) {
-            console.log(error)
-            res.status(500).json(FormattedData(false, 'internal error'))
-        }
-    }
-    veryOtp = async (req, res) => {
-        try {
-            const { mobileNo,otp } = req.body;
-            const resData = await this.service.verifyOtp(mobileNo,otp);
-            res.status(200).json(resData);
-
-        } catch (error) {
-            console.log(error)
-            res.status(500).json(FormattedData(false, 'internal error'))
-        }
-    }
-    deleteOtp = async (req, res) => {
-        try {
-            const { mobileNo } = req.params.no;
-            // const resData = await this.service.deleteOtp()
-            res.status(200).json(resData);
-
-        } catch (error) {
-            console.log(error)
-            res.status(500).json(FormattedData(false, 'internal error'))
-        }
-    }
-
 }
-export default Otp;
+export const veryOtp = async (req, res) => {
+    try {
+        const { mobileNo, otp } = req.body;
+        const resData = await otpService.verifyOtp(mobileNo, otp);
+        res.status(200).json(resData);
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(FormattedData(false, 'internal error'))
+    }
+}
+export const deleteOtp = async (req, res) => {
+    try {
+        const { mobileNo } = req.params.no;
+        // const resData = await this.service.deleteOtp()
+        res.status(200).json(resData);
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(FormattedData(false, 'internal error'))
+    }
+}
+
+

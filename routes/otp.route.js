@@ -1,9 +1,9 @@
 import express from "express";
-import Otp from "../controller/otp.js";
+import { getOtp, veryOtp } from "../controller/otp.js";
 const router = express.Router();
-const OTP = new Otp()
 
-    router.post('/get',OTP.getOtp);
-    router.post('/verify',OTP.veryOtp);
+
+    router.post('/get',getOtp);
+    router.post('/verify',veryOtp);
     router.delete('/:no');
 export {router as OtpRouter}

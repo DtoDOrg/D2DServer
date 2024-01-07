@@ -28,7 +28,7 @@ class OtpRepository {
             return data.otp;
         } catch (error) {
             console.log(error);
-            return '';
+            return null;
         }
     }
 
