@@ -11,11 +11,11 @@ class OtpService {
     getOtp = async (mobileNo) => {
         const otp = await this.findOtp(mobileNo);
         if (otp) {
-            const newOtp = Math.floor(Math.random() * 1000) + 1;
+            const newOtp = Math.floor(Math.random() * 10000) + 1;
             //send the otp to mobile number
 
             if (await this.otp.updateOtp(mobileNo, newOtp)) {
-                return FormattedData(true, `OTP send to ${mobileNo} `);
+                return FormattedData(true, {'otp': newOtp});
             } else {
                 return FormattedData(false, `OTP not send`);
 
@@ -23,12 +23,12 @@ class OtpService {
 
         } else {
             //create new data
-            const otp = Math.floor(Math.random() * 1000) + 1;
+            const otp = Math.floor(Math.random() * 10000) + 1;
             //send the otp to mobile number
             if (await this.otp.createOtp(mobileNo, otp)) {
-                FormattedData(true, `OTP send to ${mobileNo}`)
+                return FormattedData(true, {'otp': otp});
             } else {
-                FormattedData(false, `OTP not send`)
+               return  FormattedData(false, `OTP not send`)
             }
         }
     }
@@ -36,6 +36,10 @@ class OtpService {
         const otpData = await this.findOtp(mobileNo);
         if (otpData) {
             if (otpData == otp) {
+//delete otp
+await this.otp.deleteOtp(mobileNo);
+//create user by mobile 
+
                 return FormattedData(true, `OTP verified`);
             } else {
                 return FormattedData(false, `OTP not verified`);

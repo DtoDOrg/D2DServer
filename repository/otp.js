@@ -25,7 +25,11 @@ class OtpRepository {
     getOtp = async (mobileNo) => {
         try {
             const data = await OtpModel.findOne({ 'mobileNo': mobileNo });
-            return data.otp;
+            if (data) {
+                return data.otp;
+            } else {
+                return null
+            }
         } catch (error) {
             console.log(error);
             return null;
@@ -53,11 +57,9 @@ class OtpRepository {
     //update an otp 
     updateOtp = async (mobileNo, newOtp) => {
         try {
-            const otpData = await this.getOtp(mobileNo);
-            otpData.otp = newOtp;
-            otpData.isVerified = false;
-            await otpData.save();
+            await OtpModel.updateOne({ mobileNo: mobileNo }, { $set: { otp: newOtp } }, { new: true });
             return true;
+
         } catch (error) {
             console.log(error);
             return false;
