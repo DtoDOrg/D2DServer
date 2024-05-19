@@ -48,6 +48,6 @@ export const login = async (req, res) => {
     const token = await userService.logIn(req.body);
     res.status(200).json(FormattedData(true, token, "login successful"));
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(error.status).json(FormattedData(false, null, error.message));
   }
 };
