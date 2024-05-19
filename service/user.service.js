@@ -1,9 +1,7 @@
 import { regPayload, regToken, token } from "../helper/authorization.js";
 import { compare, encrypt } from "../helper/password.js";
-import { ApiError, HTTPSTATUS } from "../middleware/error.js";
 import UserRepository from "../repository/user.js";
-import * as jwt from "jsonwebtoken";
-
+import ApiError, { HTTPSTATUS } from "../middleware/error.js";
 class UserService {
   constructor() {
     this.userRepository = new UserRepository();
@@ -15,11 +13,11 @@ class UserService {
     try {
       const userInfo = await this.userRepository.getByEmail(user.email);
       if (!userInfo) {
-        throw ApiError(HTTPSTATUS.BADREQUEST, "user not found");
+        throw new ApiError(HTTPSTATUS.BADREQUEST, "user not found");
       }
       const verifyPassword = await compare(user.password, userInfo.password);
       if (!verifyPassword) {
-        throw ApiError(HTTPSTATUS.BADREQUEST, "invalid password");
+        throw new ApiError(HTTPSTATUS.BADREQUEST, "invalid password");
       }
       const payload = {
         id: userInfo._id,
@@ -27,7 +25,7 @@ class UserService {
       const signedToken = token(payload);
       return signedToken;
     } catch (error) {
-      throw ApiError(HTTPSTATUS.BADREQUEST, error.message);
+      throw new ApiError(HTTPSTATUS.BADREQUEST, error.message);
     }
   }
 

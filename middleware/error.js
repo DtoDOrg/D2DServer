@@ -1,3 +1,5 @@
+import { FormattedData } from "../helper/formattedResponse.js";
+
 export const HTTPSTATUS = {
   BADREQUEST: 400,
   UNAUTHORIZED: 401,
@@ -10,9 +12,17 @@ export const HTTPSTATUS = {
   SERVICE_UNAVAILABLE: 503,
   GATEWAY_TIMEOUT: 504,
 };
-
-export const ApiError = (status, message) => {
-  const error = new Error(message);
-  error.status = status;
-  return error;
+export const errorHandler = (err, req, res, next) => {
+  return res
+    .status(err.status || 500)
+    .json(FormattedData(false, null, err.message));
 };
+
+class ApiError extends Error {
+  constructor(statusCode, message) {
+    super(message);
+    this.status = statusCode || 500;
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+export default ApiError;

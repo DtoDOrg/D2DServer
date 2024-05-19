@@ -43,11 +43,11 @@ export const getAllUsers = async (req, res) => {
 };
 
 // login
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
   try {
     const token = await userService.logIn(req.body);
     res.status(200).json(FormattedData(true, token, "login successful"));
-  } catch (error) {
-    res.status(error.status).json(FormattedData(false, null, error.message));
+  } catch (err) {
+    next(err);
   }
 };
