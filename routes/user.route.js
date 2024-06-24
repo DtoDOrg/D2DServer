@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getAllUsers,
+  getUserById,
   login,
   registration,
   verifyRegistration,
@@ -22,5 +23,5 @@ router.post("/login", loginValidation, login);
 router.delete("/:id");
 //get by id
 
-router.get("/:id");
+router.get("/:id", getUserById);
 export { router as UserRouter };

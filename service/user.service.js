@@ -21,6 +21,7 @@ class UserService {
       }
       const payload = {
         id: userInfo._id,
+        role: 'user',
       };
       const signedToken = token(payload);
       return signedToken;
@@ -34,7 +35,7 @@ class UserService {
     try {
       const userInfo = await this.userRepository.getByEmail(user.email);
       if (userInfo) {
-        throw ApiError(HTTPSTATUS.BADREQUEST, "user already exists");
+        throw new ApiError(HTTPSTATUS.BADREQUEST, "user already exists");
       }
       const encPass = await encrypt(user.password);
       user.password = encPass;
@@ -76,7 +77,7 @@ class UserService {
   //get user by id
   async getUserById(userId) {
     try {
-      const user = await this.userRepository.getUserById(userId);
+      const user = await this.userRepository.getById(userId);
       return user;
     } catch (error) {
       throw error;

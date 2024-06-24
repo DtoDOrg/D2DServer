@@ -2,8 +2,13 @@ import express from "express";
 import { DbConnection } from "./service/database.service.js";
 import { startServer } from "./service/express.service.js";
 const app = express();
-DbConnection();
-startServer(app);
 
-
-
+const start = async()=>{
+    try {
+       await DbConnection();
+        startServer(app);  
+    } catch (error) {
+        console.log(error)
+    }
+}
+start();

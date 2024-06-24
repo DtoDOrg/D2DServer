@@ -1,18 +1,21 @@
 import express from "express";
 import cors from "cors";
-import { OtpRouter } from "../routes/otp.route.js";
 import { CONFIG } from "../config/config.js";
 import { UserRouter } from "../routes/user.route.js";
 import { errorHandler } from "../middleware/error.js";
+import { CategoryRouter } from "../routes/category.route.js";
+import { SupportRouter } from "../routes/support.js";
+import { ShopRouter } from "../routes/shop.route.js";
+import { serviceRouter } from "../routes/service.route.js";
 const PORT = CONFIG.PORT;
 export const startServer = (app) => {
   app.use(cors());
   app.use(express.json());
-  app.get("/", (req, res) => {
-    res.send("D2D server health is good");
-  });
-  app.use("/otp", OtpRouter);
+  app.use("/category", CategoryRouter);
   app.use("/users", UserRouter);
+  app.use("/support", SupportRouter);
+  app.use("/shop", ShopRouter);
+  app.use("/service", serviceRouter);
   app.use(errorHandler);
 
   app.listen(PORT, () => {
