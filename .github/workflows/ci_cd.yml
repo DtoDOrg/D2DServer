@@ -23,5 +23,5 @@ jobs:
       run: npm ci
     - name: Deploy to AWS
       run: |
-        ssh user@your-ec2-instance-ip "cd /path/to/your/app && git pull origin main && npm install && pm2 restart server"
+        ssh user@3.27.147.119 "cd /path/to/your/app && git pull origin main && npm install && pm2 restart server"
       
