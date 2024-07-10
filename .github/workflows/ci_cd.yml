@@ -20,7 +20,11 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
-
+      - name: copying ENV variables
+        run: |
+          touch .env
+          echo ${{ secrets.ENV }} >> .env
+          
       - name: Deploy to AWS EC2
         run: |
            pm2 restart server.js
