@@ -1,30 +1,27 @@
-name: CI/CD Pipeline
+name: Node.js CI/CD to AWS EC2
 
 on:
   push:
     branches:
-      - main  # Trigger workflow on push to main branch
+      - main  # Adjust branch name as needed
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
+  build:
+    runs-on: self-hosted  # This will use the GitHub runner installed on your AWS EC2 instance
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install AWS CLI and eb CLI
-        run: |
-          sudo apt-get update && sudo apt-get install -y awscli
-          pip install --upgrade --user awsebcli
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.15.1'  # Adjust Node.js version as needed
 
-      - name: Configure AWS credentials
+      - name: Install dependencies
         run: |
-          mkdir -p ~/.aws
-          echo "[default]" > ~/.aws/credentials
-          echo "aws_access_key_id=${{ secrets.ACCESS_KEY }}" >> ~/.aws/credentials
-          echo "aws_secret_access_key=${{ secrets.ACCESS_KEY }}" >> ~/.aws/credentials
+          npm install
 
-      - name: Deploy to Elastic Beanstalk
+      - name: Deploy to AWS EC2
         run: |
-          eb init -p nodejs --region us-east-1 && eb deploy --staged --verbose
+           pm2 restart your-app"
+
