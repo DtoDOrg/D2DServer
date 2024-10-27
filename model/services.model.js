@@ -1,50 +1,35 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 const ServiceSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
+    {
+        name: {
+            type: String,
+            required: true,
+        },
+        description: {
+            type: String,
+            default: '',
+        },
+        rule: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'rule',
+            required: true,
+        },
+        image: {
+            type: String,
+            required: false,
+            default: 'https://ik.imagekit.io/gvspmkmsw/y9DpT.jpg',
+        },
+        category: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Category',
+            required: true,
+        },
     },
-    description: {
-      type: String,
-      default: "",
-    },
-    rules: {
-      type: [String],
-      default: [],
-    },
-    price: {
-      type: Number,
-      required: true,
-      default: 0.0,
-    },
-    image: {
-      type: String,
-      required: true,
-      default: "",
-    },
-    category: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
-      required: true,
-    },
-    shop: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Shop",
-      required: true,
-    },
-    reviews: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Review",
-      },
-    ],
-  },
-  {
-    timestamps: true,
-    versionKey: false,
-  }
+    {
+        timestamps: true,
+        versionKey: false,
+    }
 );
 
-const ServiceModel = mongoose.model("Service", ServiceSchema);
+const ServiceModel = mongoose.model('Service', ServiceSchema);
 export default ServiceModel;
