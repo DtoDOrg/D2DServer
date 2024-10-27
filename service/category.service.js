@@ -1,41 +1,38 @@
-import ApiError, { HTTPSTATUS } from "../middleware/error.js";
-import CategoryRepository from "../repository/category.js";
+import ApiError, { httpStatus } from '../middleware/error.js';
+import CategoryRepository from '../repository/category.js';
 
 class CategoryService {
-  constructor() {
-    this.categoryRepository = new CategoryRepository();
-  }
-
-  //create categories
-
-  async createCategory(data) {
-    try {
-      return await this.categoryRepository.create(data);
-    } catch (error) {
-      throw new ApiError(
-        HTTPSTATUS.BADREQUEST,
-        error.message || "something went wrong"
-      );
+    constructor() {
+        this.categoryRepository = new CategoryRepository();
     }
-  }
 
-  //get all categories
-  async getAllCategories() {
-    try {
-      return await this.categoryRepository.getAll();
-    } catch (error) {
-      throw new ApiError(HTTPSTATUS.BADREQUEST, error.message);
-    }
-  }
+    //create categories
 
-  //delete category
-  async deleteCategory(categoryId) {
-    try {
-      const res = await this.categoryRepository.delete(categoryId);
-      return res;
-    } catch (error) {
-      throw new ApiError(HTTPSTATUS.BADREQUEST, error.message);
+    async createCategory(data) {
+        try {
+            return await this.categoryRepository.create(data);
+        } catch (error) {
+            throw new ApiError(httpStatus.badRequest, error.message || 'something went wrong');
+        }
     }
-  }
+
+    //get all categories
+    async getAllCategories() {
+        try {
+            return await this.categoryRepository.getAll();
+        } catch (error) {
+            throw new ApiError(httpStatus.badRequest, error.message);
+        }
+    }
+
+    //delete category
+    async deleteCategory(categoryId) {
+        try {
+            const res = await this.categoryRepository.delete(categoryId);
+            return res;
+        } catch (error) {
+            throw new ApiError(httpStatus.badRequest, error.message);
+        }
+    }
 }
 export default CategoryService;
