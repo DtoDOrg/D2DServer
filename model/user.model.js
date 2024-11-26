@@ -1,32 +1,39 @@
-import mongoose, { Schema } from "mongoose";
-const users = new Schema(
-  {
-    name: {
-      type: String,
-      required: true,
+import mongoose, { Schema } from 'mongoose';
+const userSchema = new Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+        },
+        email: {
+            type: String,
+            required: true,
+            lowercase: true,
+            unique: true,
+        },
+        phone: {
+            type: String,
+            required: true,
+        },
+        password: {
+            type: String,
+            required: true,
+        },
+        role: {
+            type: String,
+            enum: ['admin', 'user'],
+            required: true,
+            default: 'user',
+        },
+        avatar: {
+            type: String,
+            default: 'https://ik.imagekit.io/gvspmkmsw/avatar.webp',
+        },
     },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    phone: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    avatar: {
-      type: String,
-    },
-  },
-  {
-    timestamps: true,
-    versionKey: false,
-  }
+    {
+        timestamps: true,
+        versionKey: false,
+    }
 );
-const UserModel = mongoose.model("users", users);
+const UserModel = mongoose.model('user', userSchema);
 export default UserModel;

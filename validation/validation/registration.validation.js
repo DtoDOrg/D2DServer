@@ -1,7 +1,4 @@
-import { FormattedData } from '../../helper/formattedResponse.js';
-import { httpStatus } from '../../middleware/error.js';
-
-import { superAdminRegistrationSchema } from '../schema/registration.schema.js';
+import { customerRegistrationSchema, superAdminRegistrationSchema } from '../schema/registration.schema.js';
 
 export const superAdminRegistrationValidation = async (req, res, next) => {
     try {
@@ -12,6 +9,19 @@ export const superAdminRegistrationValidation = async (req, res, next) => {
             next(error);
         }
 
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
+export const customerRegistrationValidation = async (req, res, next) => {
+    try {
+        const { error, value } = customerRegistrationSchema.validate(req.body, {
+            abortEarly: false,
+        });
+        if (error) {
+            next(error);
+        }
         next();
     } catch (error) {
         next(error);

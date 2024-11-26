@@ -1,60 +1,55 @@
-import { FormattedData } from "../helper/formattedResponse.js";
-import UserService from "../service/user.service.js";
+import { FormattedData } from '../helper/formattedResponse';
+import CustomerService from '../service/customer.service';
 
-const userService = new UserService();
-//create user
-export const registration = async (req, res) => {
-  try {
-    const { name, email, password, phone } = req.body;
-    const token = await userService.registration({
-      name,
-      email,
-      password,
-      phone,
-    });
-    res.status(201).json(FormattedData(true, token, "check your email"));
-  } catch (error) {
-    next(err);
-  }
+const customerService = new CustomerService();
+export const createCustomer = async (req, res) => {
+    try {
+        const result = await customerService.createCustomer(req.body);
+        res.status(httpStatus.created).json(FormattedData(true, result, 'customer created'));
+    } catch (error) {
+        next(error);
+    }
+};
+export const login = async (req, res) => {
+    try {
+        const result = await customerService.login(req.body);
+        res.status(httpStatus.created).json(FormattedData(true, result, 'login successful'));
+    } catch (error) {
+        next(error);
+    }
+};
+export const getCustomerById = async (req, res) => {
+    try {
+        const result = await customerService.getCustomerById(req.params.id);
+        res.status(httpStatus.success).json(FormattedData(true, result, 'customer fetched'));
+    } catch (error) {
+        next(error);
+    }
 };
 
-//verify registration
-export const verifyRegistration = async (req, res) => {
-  try {
-    const { token } = req.params;
-    const user = await userService.verifyRegistration(token);
-    res.status(200).json(FormattedData(true, user, "user verified"));
-  } catch (error) {
-     next(err);
-  }
+export const getAll = async (req, res) => {
+    try {
+        const result = await customerService.getAll();
+        res.status(httpStatus.success).json(FormattedData(true, result, 'customers fetched'));
+    } catch (error) {
+        next(error);
+    }
 };
 
-//get all users
-export const getAllUsers = async (req, res) => {
-  try {
-    const users = await userService.getAllUsers();
-    res.status(200).json(FormattedData(true, users, "users fetched"));
-  } catch (error) {
-     next(err);
-  }
+export const updateCustomer = async (req, res) => {
+    try {
+        const result = await customerService.updateCustomer(req.params.id, req.body);
+        res.status(httpStatus.success).json(FormattedData(true, result, 'customer updated'));
+    } catch (error) {
+        next(error);
+    }
 };
 
-// login
-export const login = async (req, res, next) => {
-  try {
-    const token = await userService.logIn(req.body);
-    res.status(200).json(FormattedData(true, token, "login successful"));
-  } catch (err) {
-    next(err);
-  }
-};
-
-//get by Id
-export const getUserById = async (req, res, next) => {
-  try {
-    const user = await userService.getUserById(req.params.id);
-    res.status(200).json(FormattedData(true, user, "user fetched"));
-  } catch (err) {
-    next(err);
-  }
+export const deleteCustomer = async (req, res) => {
+    try {
+        const result = await customerService.deleteCustomer(req.params.id);
+        res.status(httpStatus.success).json(FormattedData(true, result, 'customer deleted'));
+    } catch (error) {
+        next(error);
+    }
 };
