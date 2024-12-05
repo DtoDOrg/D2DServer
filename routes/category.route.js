@@ -5,6 +5,8 @@ import {
     deleteCategory,
     getAllCategories,
     getCategoryById,
+    removeServiceFromCategory,
+    updateBannerImage,
     updateCategory,
     updateCategoryImage,
 } from '../controller/category.js';
@@ -19,12 +21,14 @@ router.get('/', getAllCategories);
 router.get('/:id', getCategoryById);
 
 //authorized
-const role = CONFIG.SUPER_ADMIN_ROLE;
+const role = CONFIG.ADMIN_ROLE;
 router.use(authorize([role]));
 router.post('/', createCategoryValidation, createCategory);
 router.patch('/image/:id', upload.single('image'), updateCategoryImage);
+router.patch('/banner/:id', upload.single('banner'), updateBannerImage);
 router.patch('/:id', updateCategoryValidation, updateCategory);
-router.patch('/service/:id', updateCategoryValidation, addServiceToCategory);
+router.patch('/add-service/:id', updateCategoryValidation, addServiceToCategory);
+router.patch('/remove-service/:id', updateCategoryValidation, removeServiceFromCategory);
 router.delete('/:id', deleteCategory);
 
 export { router as categoryRouter };

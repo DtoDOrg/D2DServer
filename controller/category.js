@@ -31,6 +31,7 @@ export const deleteCategory = async (req, res, next) => {
             throw new ApiError(httpStatus.notFound, 'category not found');
         }
         await imageDelete(result.image);
+        await imageDelete(result.bannerImage);
 
         res.status(httpStatus.success).json(FormattedData(true, result, 'category deleted'));
     } catch (error) {
@@ -67,10 +68,35 @@ export const addServiceToCategory = async (req, res, next) => {
     }
 };
 
+export const removeServiceFromCategory = async (req, res, next) => {
+    try {
+        const category = await service.removeServiceFromCategory(req.params.id, req.body.serviceId);
+        if (!category) {
+            throw new ApiError(httpStatus.notFound, 'category not found');
+        }
+        return res.status(httpStatus.success).json(FormattedData(true, category, 'service removed from category'));
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const updateCategoryImage = async (req, res, next) => {
     try {
         const image = await imageUploader(req.file, 'categories');
         const result = await service.updateCategory(req.params.id, { image: image });
+        if (!result) {
+            await imageDelete(image);
+            throw new ApiError(httpStatus.notFound, 'category not found');
+        }
+        return res.status(httpStatus.success).json(FormattedData(true, result, 'category updated'));
+    } catch (error) {
+        next(error);
+    }
+};
+export const updateBannerImage = async (req, res, next) => {
+    try {
+        const image = await imageUploader(req.file, 'categoryBanner');
+        const result = await service.updateCategory(req.params.id, { bannerImage: image });
         if (!result) {
             await imageDelete(image);
             throw new ApiError(httpStatus.notFound, 'category not found');

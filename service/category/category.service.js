@@ -10,7 +10,6 @@ class CategoryService {
             throw error;
         }
     }
-
     // get all categories
     async getAllCategories() {
         try {
@@ -19,7 +18,6 @@ class CategoryService {
             throw error;
         }
     }
-
     // delete category
     async deleteCategory(categoryId) {
         try {
@@ -38,7 +36,6 @@ class CategoryService {
             throw error;
         }
     }
-
     //update category
     async updateCategory(id, data) {
         try {
@@ -57,7 +54,7 @@ class CategoryService {
             }
             const services = category.services;
             if (!services.includes(serviceId)) {
-                if (services.length >= 10) {
+                if (services.length >= 20) {
                     throw new ApiError(httpStatus.badRequest, 'maximum 10 services can be added in a category');
                 }
                 services.push(serviceId);
@@ -65,6 +62,24 @@ class CategoryService {
                 return category;
             }
             throw new ApiError(httpStatus.badRequest, 'service already added in category');
+        } catch (error) {
+            throw error;
+        }
+    }
+    async removeServiceFromCategory(id, serviceId) {
+        try {
+            const category = await this.getCategoryById(id);
+            if (!category) {
+                throw new ApiError(httpStatus.badRequest, 'category not found');
+            }
+            const services = category.services;
+            if (services.includes(serviceId)) {
+                const index = services.indexOf(serviceId);
+                services.splice(index, 1);
+                await category.save();
+                return category;
+            }
+            throw new ApiError(httpStatus.badRequest, 'service not found in category');
         } catch (error) {
             throw error;
         }

@@ -12,10 +12,15 @@ const categorySchema = new mongoose.Schema(
         services: [
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'service',
+                ref: 'services',
             },
         ],
         image: {
+            type: String,
+            required: true,
+            default: 'https://ik.imagekit.io/gvspmkmsw/y9DpT.jpg',
+        },
+        bannerImage: {
             type: String,
             required: true,
             default: 'https://ik.imagekit.io/gvspmkmsw/y9DpT.jpg',
@@ -26,5 +31,5 @@ const categorySchema = new mongoose.Schema(
         versionKey: false,
     }
 );
-const CategoryModel = mongoose.model('category', categorySchema);
+const CategoryModel = mongoose.model('categories', categorySchema);
 export default CategoryModel;

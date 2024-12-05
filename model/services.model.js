@@ -9,10 +9,30 @@ const ServiceSchema = new mongoose.Schema(
             type: String,
             default: '',
         },
-        rule: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'rule',
+        price: {
+            type: Number,
             required: true,
+        },
+        duration: {
+            type: Number,
+            required: true,
+        },
+        warranty: {
+            type: Number,
+            required: true,
+        },
+        availability: {
+            type: Boolean,
+            required: true,
+            default: true,
+        },
+        steps: {
+            type: [String],
+            required: true,
+        },
+        rating: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'rating',
         },
         image: {
             type: String,
@@ -21,7 +41,7 @@ const ServiceSchema = new mongoose.Schema(
         },
         category: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Category',
+            ref: 'category',
             required: true,
         },
     },
@@ -31,5 +51,5 @@ const ServiceSchema = new mongoose.Schema(
     }
 );
 
-const ServiceModel = mongoose.model('Service', ServiceSchema);
+const ServiceModel = mongoose.model('services', ServiceSchema);
 export default ServiceModel;
