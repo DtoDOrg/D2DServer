@@ -3,7 +3,7 @@ import express from 'express';
 import { CONFIG } from '../config/config.js';
 //authorization middleware
 import authorize from '../middleware/authorization.middleware.js';
-import { create, deleteCity, getAll, getById, update } from '../controller/address/city.js';
+import { create, deleteCity, getAll, getById, getByState, update } from '../controller/address/city.js';
 //request validation
 import { cityValidation } from '../validation/validation/city.validation.js';
 const router = express.Router();
@@ -11,7 +11,7 @@ const router = express.Router();
 const role = CONFIG.SUPER_ADMIN_ROLE;
 
 router.get('/', getAll);
-router.get('/:id', getById);
+router.get('/:id', getByState);
 //authorized
 router.use(authorize([role]));
 router.post('/', cityValidation, create);

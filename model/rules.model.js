@@ -12,14 +12,8 @@ const rulesSchema = new mongoose.Schema(
         },
         steps: [
             {
-                name: {
-                    type: String,
-                    required: true,
-                },
-                description: {
-                    type: String,
-                    required: true,
-                },
+                type: String,
+                required: true,
             },
         ],
         services: [

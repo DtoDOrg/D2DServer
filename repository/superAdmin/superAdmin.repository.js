@@ -4,7 +4,7 @@ const superAdminRepository = {
     //create super admin
     create: async data => {
         try {
-            const result = await SuperAdminModel.create(data).select('-password');
+            const result = await SuperAdminModel.create(data);
             return result;
         } catch (error) {
             throw error;

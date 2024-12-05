@@ -36,9 +36,17 @@ export const getAllSuperAdmins = async (req, res, next) => {
         next(error);
     }
 };
-export const getSuperAdminById = async (req, res, next) => {
+export const getSuperAdmin = async (req, res, next) => {
     try {
         const superAdmin = await service.getById(req.user.id);
+        return res.status(httpStatus.success).json(FormattedData(true, superAdmin, 'super admin fetched'));
+    } catch (error) {
+        next(error);
+    }
+};
+export const getSuperAdminById = async (req, res, next) => {
+    try {
+        const superAdmin = await service.getById(req.params.id);
         return res.status(httpStatus.success).json(FormattedData(true, superAdmin, 'super admin fetched'));
     } catch (error) {
         next(error);

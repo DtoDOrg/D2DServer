@@ -18,15 +18,7 @@ export const update = async (req, res, next) => {
         next(error);
     }
 };
-export const addCity = async (req, res, next) => {
-    try {
-        const { cityId } = req.body;
-        const state = await service.addCityInAState(req.params.id, cityId);
-        res.status(200).json(FormattedData(true, state, 'state updated'));
-    } catch (error) {
-        next(error);
-    }
-};
+
 export const deleteState = async (req, res, next) => {
     try {
         const state = await service.deleteState(req.params.id);
@@ -38,7 +30,6 @@ export const deleteState = async (req, res, next) => {
 export const getAll = async (req, res, next) => {
     try {
         const states = await service.getAllStates();
-        console.log(states.length);
         res.status(200).json(FormattedData(true, states, 'states fetched'));
     } catch (error) {
         next(error);

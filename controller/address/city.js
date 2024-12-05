@@ -43,3 +43,11 @@ export const getById = async (req, res, next) => {
         next(error);
     }
 };
+export const getByState = async (req, res, next) => {
+    try {
+        const city = await service.getByStateId(req.params.id);
+        res.status(200).json(FormattedData(true, city, 'city fetched'));
+    } catch (error) {
+        next(error);
+    }
+};

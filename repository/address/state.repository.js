@@ -1,10 +1,13 @@
 import StateModel from '../../model/state.model.js';
+import { deleteDataFromRedis, getDataFromRedis, setDataToRedis } from '../../helper/redis.js';
+import { redisKeys } from '../../config/config.js';
 
 const stateRepository = {
     //create
     create: async state => {
         try {
             const result = await StateModel.create(state);
+            await deleteDataFromRedis(redisKeys.STATES);
             return result;
         } catch (error) {
             throw error;
@@ -16,6 +19,8 @@ const stateRepository = {
             const result = await StateModel.findByIdAndUpdate(id, name, {
                 new: true,
             });
+            await deleteDataFromRedis(redisKeys.STATES);
+
             return result;
         } catch (error) {
             throw error;
@@ -24,8 +29,12 @@ const stateRepository = {
     //find all
     findAll: async () => {
         try {
-            const result = await StateModel.find().select('-createdAt -updatedAt').sort({ name: 1 }).populate({ path: 'cities', select: 'name _id' });
-
+            const redisData = await getDataFromRedis(redisKeys.STATES);
+            if (redisData) {
+                return JSON.parse(redisData);
+            }
+            const result = await StateModel.find().select('-createdAt -updatedAt').sort({ name: 1 });
+            await setDataToRedis(redisKeys.STATES, JSON.stringify(result));
             return result;
         } catch (error) {
             throw error;
@@ -35,7 +44,7 @@ const stateRepository = {
     //find by id
     findById: async id => {
         try {
-            const result = await StateModel.findById(id).select('-createdAt -updatedAt').populate('cities');
+            const result = await StateModel.findById(id).select('-createdAt -updatedAt');
             return result;
         } catch (error) {
             throw error;
@@ -45,6 +54,7 @@ const stateRepository = {
     deleteById: async id => {
         try {
             const result = await StateModel.findByIdAndDelete(id);
+            await deleteDataFromRedis(redisKeys.STATES);
             return result;
         } catch (error) {
             throw error;

@@ -34,7 +34,7 @@ const cityRepository = {
     //find all
     findAll: async () => {
         try {
-            const result = await CityModel.find().select('-createdAt -updatedAt').populate({ path: 'state', select: 'name -_id' }).sort({ name: 1 });
+            const result = await CityModel.find().select('-createdAt -updatedAt').populate({ path: 'state', select: 'name _id' }).sort({ name: 1 });
             return result;
         } catch (error) {
             throw error;
@@ -44,6 +44,14 @@ const cityRepository = {
     findById: async id => {
         try {
             const result = await CityModel.findById(id).select('-createdAt -updatedAt');
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    },
+    findByStateId: async id => {
+        try {
+            const result = await CityModel.find({ state: id }).select('-createdAt -updatedAt');
             return result;
         } catch (error) {
             throw error;

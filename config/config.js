@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { STATES } from 'mongoose';
 dotenv.config();
 export const CONFIG = Object.freeze({
     PORT: process.env.PORT,
@@ -13,4 +14,14 @@ export const CONFIG = Object.freeze({
     REDIS_HOST: process.env.REDIS_HOST,
     REDIS_PORT: process.env.REDIS_PORT,
     REDIS_PASSWORD: process.env.REDIS_PASSWORD,
+});
+export const redisKeys = Object.freeze({
+    USERS: 'users',
+    SHOPS: 'shops',
+    ORDERS: 'orders',
+    CATEGORIES: 'categories',
+    RULES: 'rules',
+    PRODUCTS: 'products',
+    STATES: 'states',
+    CITIES: 'cities',
 });

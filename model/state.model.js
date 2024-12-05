@@ -6,12 +6,6 @@ const stateSchema = new mongoose.Schema(
             required: true,
             unique: true,
         },
-        cities: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'city', // Reference to the City model
-            },
-        ],
     },
     {
         timestamps: true,

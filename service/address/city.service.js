@@ -53,5 +53,13 @@ class CityService {
             throw error;
         }
     }
+    async getByStateId(id) {
+        try {
+            const city = await cityRepository.findByStateId(id);
+            return city;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 export default CityService;

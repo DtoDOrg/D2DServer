@@ -13,28 +13,30 @@ import { ruleRouter } from '../routes/rule/rule.js';
 import { categoryRouter } from '../routes/category.route.js';
 const PORT = CONFIG.PORT;
 export const startServer = app => {
-    const router = express.Router();
-    app.use(cors());
-    app.use(express.json());
+    try {
+        app.use(cors());
+        app.use(express.json());
+        //super admin
+        app.use('/super-admin', superAdminRouter);
+        //city
+        app.use('/city', cityRouter);
+        //state
+        app.use('/state', stateRouter);
+        //rule
+        app.use('/rule', ruleRouter);
+        //service
+        app.use('/service', serviceRouter);
+        //category
+        app.use('/category', categoryRouter);
 
-    //super admin
-    app.use('/super-admin', superAdminRouter);
-    //city
-    app.use('/city', cityRouter);
-    //state
-    app.use('/state', stateRouter);
-    //rule
-    app.use('/rule', ruleRouter);
-    //service
-    app.use('/service', serviceRouter);
-    //category
-    app.use('/category', categoryRouter);
-    app.use('/users', UserRouter);
-    app.use('/support', SupportRouter);
-    app.use('/shop', ShopRouter);
-    app.use(errorHandler);
-
-    app.listen(PORT, () => {
-        console.log(`App is running on Port ${PORT}`);
-    });
+        app.use('/users', UserRouter);
+        app.use('/support', SupportRouter);
+        app.use('/shop', ShopRouter);
+        app.use(errorHandler);
+        app.listen(PORT, () => {
+            console.log(`App is running on Port ${PORT}`);
+        });
+    } catch (error) {
+        console.log(error);
+    }
 };

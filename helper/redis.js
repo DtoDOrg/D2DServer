@@ -10,9 +10,10 @@ const redisClient = createClient({
 });
 export const startRedis = () => {
     try {
-        console.log('starting redis...');
         redisClient.connect();
+        redisClient.on('connect', () => console.log('redis connected'));
     } catch (error) {
+        console.log(error);
         throw error;
     }
 };
@@ -25,11 +26,21 @@ export const setDataToRedis = async (key, value) => {
     }
 };
 
+export const deleteDataFromRedis = async key => {
+    try {
+        const result = await redisClient.del(key);
+        return result;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const getDataFromRedis = async key => {
     try {
         const result = await redisClient.get(key);
         return result;
     } catch (error) {
+        console.log(error);
         throw error;
     }
 };
