@@ -7,7 +7,7 @@ const app = express();
 const start = async () => {
     try {
         await DbConnection();
-        startRedis();
+        // await startRedis();
         startServer(app);
     } catch (error) {
         console.log(error);

@@ -1,7 +1,7 @@
 import express from 'express';
-import { createCustomer, deleteCustomer, getAll, getCustomerById, login, updateCustomer } from '../controller/user';
-import { CONFIG } from '../config/config';
-import authorize from '../middleware/authorization.middleware';
+import { createCustomer, deleteCustomer, getAll, getCustomerById, login, updateCustomer } from '../controller/user.js';
+import { CONFIG } from '../config/config.js';
+import authorize from '../middleware/authorization.middleware.js';
 import { customerRegistrationValidation } from '../validation/validation/registration.validation.js';
 
 const router = express.Router();

@@ -11,11 +11,13 @@ import { stateRouter } from '../routes/state.route.js';
 import { serviceRouter } from '../routes/service/service.route.js';
 import { ruleRouter } from '../routes/rule/rule.js';
 import { categoryRouter } from '../routes/category.route.js';
+import { adminRouter } from '../routes/admin/auth.admin.route.js';
 const PORT = CONFIG.PORT;
 export const startServer = app => {
     try {
         app.use(cors());
         app.use(express.json());
+        app.use('/admin', adminRouter);
         //super admin
         app.use('/super-admin', superAdminRouter);
         //city

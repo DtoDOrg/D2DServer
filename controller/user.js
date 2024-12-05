@@ -1,5 +1,5 @@
-import { FormattedData } from '../helper/formattedResponse';
-import CustomerService from '../service/customer.service';
+import { FormattedData } from '../helper/formattedResponse.js';
+import CustomerService from '../service/customer.service.js';
 
 const customerService = new CustomerService();
 export const createCustomer = async (req, res) => {

@@ -1,46 +1,22 @@
 import { generateToken } from '../../helper/authorization.js';
 import { compare, encrypt } from '../../helper/password.js';
 import ApiError, { httpStatus } from '../../middleware/error.js';
-import superAdminRepository from '../../repository/superAdmin/superAdmin.repository.js';
+import AdminRepository from '../../repository/admin.repository.js';
 
 class AdminService {
-    //create super admin
-    async createSuperAdmin(data) {
-        try {
-            const user = await superAdminRepository.getByEmail(data.email);
-            if (!user) {
-                const encPass = await encrypt(data.password);
-                data.password = encPass;
-
-                const superAdmin = await superAdminRepository.create(data);
-                const payload = {
-                    id: superAdmin._id,
-                    role: 'superAdmin',
-                    'email:': data.email,
-                };
-                const token = generateToken(payload);
-                return token;
-            }
-            throw new ApiError(httpStatus.badRequest, 'user already exists');
-        } catch (error) {
-            throw error;
-        }
-    }
-    //login
-
     async login(data) {
         try {
-            const user = await superAdminRepository.getByEmail(data.email);
-            if (!user) {
-                throw new ApiError(httpStatus.badGateway, 'user not found');
+            const admin = await AdminRepository.getByEmail(data.email);
+            if (!admin) {
+                throw new ApiError(httpStatus.notFound, 'admin not found');
             }
-            const verifyPassword = await compare(data.password, user.password);
-            if (!verifyPassword) {
-                throw new ApiError(httpStatus.badGateway, 'invalid password');
+            const match = await compare(data.password, admin.password);
+            if (!match) {
+                throw new ApiError(httpStatus.unauthorized, 'password not matched');
             }
             const payload = {
-                id: user._id,
-                role: 'superAdmin',
+                id: admin._id,
+                role: 'admin',
                 'email:': data.email,
             };
             const token = generateToken(payload);
@@ -49,57 +25,55 @@ class AdminService {
             throw error;
         }
     }
-
-    //get by id
-    async getById(id) {
-        try {
-            const superAdmin = await superAdminRepository.getById(id);
-            if (!superAdmin) {
-                throw new ApiError(httpStatus.notFound, 'super admin not found');
-            }
-            return superAdmin;
-        } catch (error) {
-            throw error;
-        }
-    }
-    //get all
     async getAll() {
         try {
-            const result = await superAdminRepository.getAll();
-            return result;
+            const admins = await AdminRepository.getAll();
+            return admins;
         } catch (error) {
             throw error;
         }
     }
-    //update super admin
-    async update(id, data) {
+    async getById(id) {
         try {
-            const result = await superAdminRepository.update(id, data);
-            return result;
+            const admin = await AdminRepository.getById(id);
+            return admin;
         } catch (error) {
             throw error;
         }
     }
-    async updatePassword(id, data) {
+    async getByEmail(email) {
         try {
-            const encPass = await encrypt(data.password);
-            const result = await superAdminRepository.update(id, {
-                password: encPass,
-            });
-            return result;
+            const admin = await AdminRepository.getByEmail(email);
+            return admin;
         } catch (error) {
             throw error;
         }
     }
+    async create(data) {
+        try {
+            const admin = await AdminRepository.getByEmail(data.email);
 
-    //delete by id
-    async deleteById(id) {
-        try {
-            const result = await superAdminRepository.deleteById(id);
-            if (!result) {
-                throw new ApiError(httpStatus.notFound, 'super admin not found');
+            if (admin) {
+                throw new ApiError(httpStatus.badRequest, 'email already exist');
             }
-            return result;
+            const password = await encrypt(data.password);
+            data.password = password;
+            const res = await AdminRepository.create(data);
+            const payload = {
+                id: res._id,
+                role: 'admin',
+                'email:': data.email,
+            };
+            const token = generateToken(payload);
+            return token;
+        } catch (error) {
+            throw error;
+        }
+    }
+    async delete(id) {
+        try {
+            const admin = await AdminRepository.delete(id);
+            return admin;
         } catch (error) {
             throw error;
         }

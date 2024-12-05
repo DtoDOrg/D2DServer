@@ -8,12 +8,12 @@ const redisClient = createClient({
         port: CONFIG.REDIS_PORT,
     },
 });
-export const startRedis = () => {
+export const startRedis = async () => {
     try {
-        redisClient.connect();
+        await redisClient.connect();
         redisClient.on('connect', () => console.log('redis connected'));
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
         throw error;
     }
 };
