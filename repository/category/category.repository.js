@@ -42,7 +42,7 @@ const categoryRepository = {
     //get by id
     getById: async id => {
         try {
-            const category = await CategoryModel.findById(id).populate('services');
+            const category = await CategoryModel.findById(id);
             return category;
         } catch (error) {
             throw error;

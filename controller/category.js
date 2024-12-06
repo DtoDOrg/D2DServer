@@ -56,29 +56,6 @@ export const updateCategory = async (req, res, next) => {
         next(error);
     }
 };
-export const addServiceToCategory = async (req, res, next) => {
-    try {
-        const category = await service.addServiceToCategory(req.params.id, req.body.serviceId);
-        if (!category) {
-            throw new ApiError(httpStatus.notFound, 'category not found');
-        }
-        return res.status(httpStatus.created).json(FormattedData(true, category, 'service added to category'));
-    } catch (error) {
-        next(error);
-    }
-};
-
-export const removeServiceFromCategory = async (req, res, next) => {
-    try {
-        const category = await service.removeServiceFromCategory(req.params.id, req.body.serviceId);
-        if (!category) {
-            throw new ApiError(httpStatus.notFound, 'category not found');
-        }
-        return res.status(httpStatus.success).json(FormattedData(true, category, 'service removed from category'));
-    } catch (error) {
-        next(error);
-    }
-};
 
 export const updateCategoryImage = async (req, res, next) => {
     try {
