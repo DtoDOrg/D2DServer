@@ -33,13 +33,12 @@ const serviceRepository = {
     //get service by id
     getServiceById: async id => {
         try {
-            const service = await ServiceModel.findById(id);
+            const service = await ServiceModel.findById(id).populate('category');
             return service;
         } catch (error) {
             throw error;
         }
     },
-
     //get service by categoryId
     getServiceByCategory: async id => {
         try {

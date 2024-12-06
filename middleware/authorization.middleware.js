@@ -16,7 +16,6 @@ const authorize = roles => {
             }
             return next(new ApiError(httpStatus.unauthorized, 'access denied'), res);
         } catch (error) {
-            console.log(error);
             next(error);
         }
     };

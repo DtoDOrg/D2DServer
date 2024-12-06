@@ -20,6 +20,7 @@ class Services {
     async updateService(id, data) {
         try {
             const service = this.serviceRepository.updateService(id, data);
+            return service;
         } catch (error) {
             throw new ApiError(httpStatus.badRequest, error.message);
         }

@@ -21,7 +21,7 @@ const ServiceSchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
-        availability: {
+        status: {
             type: Boolean,
             required: true,
             default: true,
@@ -41,7 +41,7 @@ const ServiceSchema = new mongoose.Schema(
         },
         category: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'category',
+            ref: 'categories',
             required: true,
         },
     },

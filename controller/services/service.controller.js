@@ -38,6 +38,7 @@ export const getServiceById = async (req, res, next) => {
         next(error);
     }
 };
+
 //get service by category
 export const getServiceByCategory = async (req, res, next) => {
     try {
@@ -75,6 +76,7 @@ export const deleteService = async (req, res, next) => {
         next(error);
     }
 };
+//update service image
 export const updateServiceImage = async (req, res, next) => {
     try {
         const image = await imageUploader(req.file, 'services');

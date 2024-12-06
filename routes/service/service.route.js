@@ -8,7 +8,7 @@ import {
     getServiceById,
     updateService,
     updateServiceImage,
-} from '../../controller/services/service.js';
+} from '../../controller/services/service.controller.js';
 import { CONFIG } from '../../config/config.js';
 import authorize from '../../middleware/authorization.middleware.js';
 import { createServiceValidation, updateServiceValidation } from '../../validation/validation/service.validation.js';
@@ -19,10 +19,10 @@ router.get('/:id', getServiceById);
 router.get('/category/:id', getServiceByCategory);
 
 //authorized
-const role = CONFIG.SUPER_ADMIN_ROLE;
+const role = CONFIG.ADMIN_ROLE;
 router.use(authorize([role]));
-router.post('/', createServiceValidation, createService);
-router.post('/image/:id', upload.single('image'), updateServiceImage);
+router.post('/', createService);
+router.patch('/image/:id', upload.single('image'), updateServiceImage);
 router.patch('/:id', updateServiceValidation, updateService);
 router.delete('/:id', deleteService);
 
