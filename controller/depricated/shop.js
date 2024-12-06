@@ -1,7 +1,7 @@
-import { FormattedData } from '../helper/formattedResponse.js';
-import { imageDelete } from '../helper/imageDeleter.js';
-import { imageUploader } from '../helper/imageUploader.js';
-import ShopService from '../service/shop.service.js';
+import { FormattedData } from '../../helper/formattedResponse.js';
+import { imageDelete } from '../../helper/imageDeleter.js';
+import { imageUploader } from '../../helper/imageUploader.js';
+import ShopService from '../../service/depricated/shop.service.js';
 
 const shopService = new ShopService();
 

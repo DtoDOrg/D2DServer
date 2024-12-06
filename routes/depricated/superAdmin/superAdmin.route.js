@@ -12,14 +12,14 @@ import {
     updateSuperAdmin,
 } from '../../controller/superAdmin/superAdmin.js';
 //app configuration
-import { CONFIG } from '../../config/config.js';
+import { CONFIG } from '../../../config/config.js';
 //authorization middleware
-import authorize from '../../middleware/authorization.middleware.js';
+import authorize from '../../../middleware/authorization.middleware.js';
 //validation
-import { superAdminLoginValidation } from '../../validation/validation/login.validation.js';
-import { superAdminRegistrationValidation } from '../../validation/validation/registration.validation.js';
-import { passwordValidation, superAdminUpdateValidation } from '../../validation/validation/update.validation.js';
-import { upload } from '../../middleware/multer.js';
+import { superAdminLoginValidation } from '../../../validation/validation/login.validation.js';
+import { superAdminRegistrationValidation } from '../../../validation/validation/registration.validation.js';
+import { passwordValidation, superAdminUpdateValidation } from '../../../validation/validation/update.validation.js';
+import { upload } from '../../../middleware/multer.js';
 
 const router = express.Router();
 //auth

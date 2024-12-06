@@ -1,5 +1,5 @@
-import { FormattedData } from '../../helper/formattedResponse.js';
-import ApiError, { httpStatus } from '../../middleware/error.js';
+import { FormattedData } from '../../../helper/formattedResponse.js';
+import ApiError, { httpStatus } from '../../../middleware/error.js';
 import RuleService from '../../service/rules/rule.service.js';
 
 const service = new RuleService();

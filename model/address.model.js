@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const addressSchema = new mongoose.Schema(
+const AddressSchema = new mongoose.Schema(
     {
         street: {
             type: String,
@@ -22,6 +22,7 @@ const addressSchema = new mongoose.Schema(
         country: {
             type: String,
             required: true,
+            default: 'India',
         },
         zip: {
             type: Number,
@@ -34,5 +35,5 @@ const addressSchema = new mongoose.Schema(
     }
 );
 
-const AddressModel = mongoose.model('address', addressSchema);
+const AddressModel = mongoose.model('address', AddressSchema);
 export default AddressModel;

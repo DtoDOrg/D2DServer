@@ -28,6 +28,14 @@ export const create = async (req, res, next) => {
         next(error);
     }
 };
+export const changeStatus = async (req, res, next) => {
+    try {
+        const admin = await service.changeStatus(req.params.id);
+        return res.status(httpStatus.success).json(FormattedData(true, admin, 'admin updated'));
+    } catch (error) {
+        next(error);
+    }
+};
 export const deleteAdmin = async (req, res, next) => {
     try {
         const admin = await service.delete(req.params.id);

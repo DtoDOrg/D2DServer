@@ -1,10 +1,10 @@
 import express from 'express';
 
-import { CONFIG } from '../../config/config.js';
-import authorize from '../../middleware/authorization.middleware.js';
-import { createServiceValidation, updateServiceValidation } from '../../validation/validation/service.validation.js';
+import { CONFIG } from '../../../config/config.js';
+import authorize from '../../../middleware/authorization.middleware.js';
+import { createServiceValidation, updateServiceValidation } from '../../../validation/validation/service.validation.js';
 import { addServiceToRule, addStepToRule, create, deleteRule, getAllRules, getRuleById, removeServiceFromRule, update } from '../../controller/rules/rule.js';
-import { createRuleValidation, updateRuleValidation } from '../../validation/validation/rule.validation.js';
+import { createRuleValidation, updateRuleValidation } from '../../../validation/validation/rule.validation.js';
 const router = express.Router();
 
 router.get('/', getAllRules);

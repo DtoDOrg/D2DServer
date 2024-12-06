@@ -1,5 +1,5 @@
-import ApiError, { httpStatus } from '../middleware/error.js';
-import ShopRepository from '../repository/shop.js';
+import ApiError, { httpStatus } from '../../middleware/error.js';
+import ShopRepository from '../../repository/depricated/shop.js';
 
 class ShopService {
     constructor() {

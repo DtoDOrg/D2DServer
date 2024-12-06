@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const stateSchema = new mongoose.Schema(
+const StateSchema = new mongoose.Schema(
     {
         name: {
             type: String,
@@ -13,5 +13,5 @@ const stateSchema = new mongoose.Schema(
     }
 );
 
-const StateModel = mongoose.model('state', stateSchema);
+const StateModel = mongoose.model('state', StateSchema);
 export default StateModel;

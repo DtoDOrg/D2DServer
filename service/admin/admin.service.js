@@ -49,6 +49,19 @@ class AdminService {
             throw error;
         }
     }
+    async changeStatus(id) {
+        try {
+            const admin = await AdminRepository.getById(id);
+            if (admin) {
+                admin.isActive = !admin.isActive;
+                await admin.save();
+                return admin;
+            }
+            throw new ApiError(httpStatus.notFound, 'admin not found');
+        } catch (error) {
+            throw error;
+        }
+    }
     async create(data) {
         try {
             const admin = await AdminRepository.getByEmail(data.email);

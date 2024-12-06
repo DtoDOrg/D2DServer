@@ -1,7 +1,7 @@
-import { FormattedData } from '../../helper/formattedResponse.js';
-import { imageDelete } from '../../helper/imageDeleter.js';
-import { imageUploader } from '../../helper/imageUploader.js';
-import ApiError, { httpStatus } from '../../middleware/error.js';
+import { FormattedData } from '../../../helper/formattedResponse.js';
+import { imageDelete } from '../../../helper/imageDeleter.js';
+import { imageUploader } from '../../../helper/imageUploader.js';
+import ApiError, { httpStatus } from '../../../middleware/error.js';
 import SuperAdminService from '../../service/superAdmin/superAdmin.service.js';
 
 const service = new SuperAdminService();
