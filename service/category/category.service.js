@@ -48,5 +48,13 @@ class CategoryService {
             throw error;
         }
     }
+    async changeStatus(id, data) {
+        try {
+            const category = await categoryRepository.update(id, data);
+            return category;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 export default CategoryService;

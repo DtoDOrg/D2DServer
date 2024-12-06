@@ -7,6 +7,7 @@ import {
     updateBannerImage,
     updateCategory,
     updateCategoryImage,
+    updateCategoryStatus,
 } from '../controller/category.js';
 import { CONFIG } from '../config/config.js';
 import authorize from '../middleware/authorization.middleware.js';
@@ -25,6 +26,8 @@ router.post('/', createCategoryValidation, createCategory);
 router.patch('/image/:id', upload.single('image'), updateCategoryImage);
 router.patch('/banner/:id', upload.single('banner'), updateBannerImage);
 router.patch('/:id', updateCategoryValidation, updateCategory);
+router.patch('/:id', updateCategoryValidation, updateCategory);
+router.patch('/status/:id', updateCategoryStatus);
 router.delete('/:id', deleteCategory);
 
 export { router as categoryRouter };

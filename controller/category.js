@@ -83,3 +83,11 @@ export const updateBannerImage = async (req, res, next) => {
         next(error);
     }
 };
+export const updateCategoryStatus = async (req, res, next) => {
+    try {
+        const result = await service.changeStatus(req.params.id, req.body);
+        res.status(httpStatus.success).json(FormattedData(true, result, 'category updated'));
+    } catch (error) {
+        next(error);
+    }
+};

@@ -19,6 +19,11 @@ const categorySchema = new mongoose.Schema(
             required: true,
             default: 'https://ik.imagekit.io/gvspmkmsw/y9DpT.jpg',
         },
+        status: {
+            type: Boolean,
+            required: true,
+            default: true,
+        },
     },
     {
         timestamps: true,
