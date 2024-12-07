@@ -1,24 +1,24 @@
 import express from 'express';
-import { createCustomer, deleteCustomer, getAll, getCustomerById, login, updateCustomer } from '../controller/user.js';
 import { CONFIG } from '../config/config.js';
 import authorize from '../middleware/authorization.middleware.js';
-import { customerRegistrationValidation } from '../validation/validation/registration.validation.js';
+import { changeStatus, deleteById, getAll, getProfile, login, registration, update, updateImage } from '../controller/user.controller.js';
+import { upload } from '../middleware/multer.js';
 
 const router = express.Router();
 //create user
-router.post('/', customerRegistrationValidation, createCustomer);
-//login
+router.post('/', registration);
 router.post('/login', login);
-
-const superAdminRole = CONFIG.SUPER_ADMIN_ROLE;
-router.use(authorize([superAdminRole]));
-//get all users
+router.get('/:id', getProfile);
 router.get('/', getAll);
+
+//authorized
 const userRole = CONFIG.USER_ROLE;
-router.use(authorize([userRole]));
-//delete by id
-router.delete('/:id', deleteCustomer);
-//get by id
-router.get('/:id', getCustomerById);
-router.put('/:id', updateCustomer);
+const adminRole = CONFIG.ADMIN_ROLE;
+// router.use(authorize([userRole]));
+router.put('/:id', update);
+router.put('/status/:id', changeStatus);
+router.put('/image/:id', upload.single('image'), updateImage);
+router.delete('/:id', deleteById);
+router.use(authorize([adminRole]));
+
 export { router as UserRouter };

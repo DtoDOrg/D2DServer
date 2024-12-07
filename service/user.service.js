@@ -2,16 +2,17 @@ import { regPayload, regToken, generateToken } from '../helper/authorization.js'
 import { compare, encrypt } from '../helper/password.js';
 import UserRepository from '../repository/user.js';
 import ApiError, { httpStatus } from '../middleware/error.js';
+import OTPService from './otp.service.js';
 class UserService {
     constructor() {
-        this.userRepository = new UserRepository();
+        this.otpService = new OTPService();
     }
 
     //log in
 
     async logIn(user) {
         try {
-            const userInfo = await this.userRepository.getByEmail(user.email);
+            const userInfo = await UserRepository.getByEmail(user.email);
             if (!userInfo) {
                 throw new ApiError(httpStatus.notFound, 'user not found');
             }
@@ -19,56 +20,38 @@ class UserService {
             if (!verifyPassword) {
                 throw new ApiError(httpStatus.badRequest, 'invalid password');
             }
+            if (!userInfo.isVerified) {
+                throw new ApiError(httpStatus.badRequest, 'please verify your email');
+            }
+            if (!userInfo.status) {
+                throw new ApiError(httpStatus.badRequest, 'this account is deactivated');
+            }
             const payload = {
                 id: userInfo._id,
                 role: 'user',
+                'email:': user.email,
             };
             const signedToken = token(payload);
             return signedToken;
         } catch (error) {
-            throw new ApiError(httpStatus.internalServerError, error.message);
+            throw error;
         }
     }
 
     //registration
     async registration(user) {
         try {
-            const userInfo = await this.userRepository.getByEmail(user.email);
-            if (userInfo) {
+            let userInfo = await UserRepository.getByEmail(user.email);
+            if (userInfo && userInfo.isVerified) {
                 throw new ApiError(httpStatus.badRequest, 'user already exists');
             }
             const encPass = await encrypt(user.password);
             user.password = encPass;
-            const token = regToken(user);
-
-            //send token to email
-
-            return token;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    //verify registration
-    async verifyRegistration(token) {
-        try {
-            const payload = regPayload(token);
-            // return payload;
-            const createdUser = await this.userRepository.create(payload);
-            return createdUser;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    //create user
-
-    async createUser(user) {
-        try {
-            const encPass = await encrypt(user.password);
-            user.password = encPass;
-            const createdUser = await this.userRepository.createUser(user);
-            return createdUser;
+            if (!userInfo) {
+                userInfo = await UserRepository.create(user);
+            }
+            await this.otpService.sendOTP(user.email);
+            return userInfo;
         } catch (error) {
             throw error;
         }
@@ -77,7 +60,7 @@ class UserService {
     //get user by id
     async getUserById(userId) {
         try {
-            const user = await this.userRepository.getById(userId);
+            const user = await UserRepository.getById(userId);
             return user;
         } catch (error) {
             throw error;
@@ -87,7 +70,7 @@ class UserService {
     //get all users
     async getAllUsers() {
         try {
-            const users = await this.userRepository.users();
+            const users = await UserRepository.getAll();
             return users;
         } catch (error) {
             throw error;
@@ -98,7 +81,7 @@ class UserService {
 
     async updateUser(userId, user) {
         try {
-            const updatedUser = await this.userRepository.updateUser(userId, user);
+            const updatedUser = await UserRepository.update(userId, user);
             return updatedUser;
         } catch (error) {
             throw error;
@@ -109,8 +92,23 @@ class UserService {
 
     async deleteUser(userId) {
         try {
-            const deletedUser = await this.userRepository.deleteUser(userId);
+            const deletedUser = await UserRepository.delete(userId);
             return deletedUser;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    //change status
+    async changeStatus(userId) {
+        try {
+            const user = await UserRepository.getById(userId);
+            if (user) {
+                user.status = !user.status;
+                await user.save();
+                return user;
+            }
+            throw new ApiError(httpStatus.notFound, 'user not found');
         } catch (error) {
             throw error;
         }

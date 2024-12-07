@@ -30,7 +30,7 @@ export const startServer = app => {
         app.use('/service', serviceRouter);
         //category
         app.use('/category', categoryRouter);
-        app.use('/users', UserRouter);
+        app.use('/user', UserRouter);
         app.use('/support', SupportRouter);
         app.use('/shop', ShopRouter);
         app.use(errorHandler);

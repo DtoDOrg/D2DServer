@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-import { STATES } from 'mongoose';
 dotenv.config();
 export const CONFIG = Object.freeze({
     PORT: process.env.PORT,
@@ -14,6 +13,9 @@ export const CONFIG = Object.freeze({
     REDIS_HOST: process.env.REDIS_HOST,
     REDIS_PORT: process.env.REDIS_PORT,
     REDIS_PASSWORD: process.env.REDIS_PASSWORD,
+    EMAIL: process.env.SMPT_MAIL,
+    PASSWORD: process.env.SMPT_PASSWORD,
+    MAIL_GUN_API_KEY: process.env.MAIL_GUN_API_KEY,
 });
 export const redisKeys = Object.freeze({
     USERS: 'users',

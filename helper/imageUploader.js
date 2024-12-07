@@ -14,7 +14,6 @@ export const imageUploader = async (file, folder) => {
         });
 
         const url = `${details.url}#${details.fileId}`;
-        console.log(url);
         return url;
         // SDK initialization
     } catch (error) {
