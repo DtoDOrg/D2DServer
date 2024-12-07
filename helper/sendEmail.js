@@ -21,7 +21,6 @@ export const sendEmail = async options => {
     try {
         await transporter.sendMail(mailOptions);
     } catch (error) {
-        console.log(error);
         throw error;
     }
 };

@@ -16,6 +16,9 @@ class OTPService {
     //save otp
     async sendOTP(email) {
         try {
+            if (!email) {
+                throw new ApiError(httpStatus.badRequest, 'email is required');
+            }
             const otp = await this.generateOTP();
             const data = {
                 email: email,
@@ -40,8 +43,11 @@ class OTPService {
         }
     }
     //verify otp
-    async verifyOtp(userId, email, otp) {
+    async verifyOtp(email, otp) {
         try {
+            if (!email || !otp) {
+                throw new ApiError(httpStatus.badRequest, 'email and otp are required');
+            }
             const res = await OTPRepository.findByEmail(email);
             if (res) {
                 if (res.otp == otp && res.email == email) {
@@ -49,7 +55,11 @@ class OTPService {
                         throw new ApiError(httpStatus.badRequest, 'otp expired');
                     }
                     await OTPRepository.deleteByEmail(email);
-                    await UserRepository.update(userId, { isVerified: true });
+                    const user = await UserRepository.getByEmail(email);
+                    if (!user) {
+                        throw new ApiError(httpStatus.notFound, 'user not found');
+                    }
+                    await UserRepository.update(user.id, { isVerified: true });
                     return 'OTP verified';
                 }
             }

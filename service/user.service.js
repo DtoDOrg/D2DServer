@@ -31,7 +31,7 @@ class UserService {
                 role: 'user',
                 'email:': user.email,
             };
-            const signedToken = token(payload);
+            const signedToken = generateToken(payload);
             return signedToken;
         } catch (error) {
             throw error;

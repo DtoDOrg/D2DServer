@@ -1,7 +1,7 @@
 import express from 'express';
-import { createShop, deleteShop, getAllShops, getShopByCity, getShopById, updateShopStatus } from '../controller/depricated/shop.js';
-import { upload } from '../middleware/multer.js';
-import { createShopValidation, shopStatus } from '../middleware/reqValidation.js';
+import { createShop, deleteShop, getAllShops, getShopByCity, getShopById, updateShopStatus } from '../../controller/depricated/shop.js';
+import { upload } from '../../middleware/multer.js';
+import { createShopValidation, shopStatus } from '../../middleware/reqValidation.js';
 
 const router = express.Router();
 
