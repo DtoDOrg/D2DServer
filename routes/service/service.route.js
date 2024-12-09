@@ -8,10 +8,10 @@ import {
     getServiceById,
     updateService,
     updateServiceImage,
-} from '../../controller/services/service.controller.js';
+} from '../../controller/service.controller.js';
 import { CONFIG } from '../../config/config.js';
 import authorize from '../../middleware/authorization.middleware.js';
-import { createServiceValidation, updateServiceValidation } from '../../validation/validation/service.validation.js';
+import { updateServiceValidation } from '../../validation/validation/service.validation.js';
 const router = express.Router();
 
 router.get('/', getAllServices);

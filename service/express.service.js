@@ -10,6 +10,7 @@ import { serviceRouter } from '../routes/service/service.route.js';
 import { categoryRouter } from '../routes/category.route.js';
 import { adminRouter } from '../routes/admin/admin.route.js';
 import { OTPRouter } from '../routes/otp.route.js';
+import { cartRouter } from '../routes/cart.route.js';
 const PORT = CONFIG.PORT;
 export const startServer = app => {
     try {
@@ -24,9 +25,13 @@ export const startServer = app => {
         app.use('/service', serviceRouter);
         //category
         app.use('/category', categoryRouter);
+        //user
         app.use('/user', UserRouter);
         //opt
         app.use('/otp', OTPRouter);
+        //cart
+        app.use('/cart', cartRouter);
+
         app.use('/support', SupportRouter);
         app.use(errorHandler);
         app.listen(PORT, () => {

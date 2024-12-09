@@ -8,7 +8,7 @@ import {
     updateCategory,
     updateCategoryImage,
     updateCategoryStatus,
-} from '../controller/category.js';
+} from '../controller/category.controller.js';
 import { CONFIG } from '../config/config.js';
 import authorize from '../middleware/authorization.middleware.js';
 import { createCategoryValidation, updateCategoryValidation } from '../validation/validation/category.validation.js';

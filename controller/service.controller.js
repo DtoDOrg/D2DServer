@@ -1,8 +1,8 @@
-import { FormattedData } from '../../helper/formattedResponse.js';
-import { imageDelete } from '../../helper/imageDeleter.js';
-import { imageUploader } from '../../helper/imageUploader.js';
-import ApiError, { httpStatus } from '../../middleware/error.js';
-import ServicesClass from '../../service/services/services.service.js';
+import { FormattedData } from '../helper/formattedResponse.js';
+import { imageDelete } from '../helper/imageDeleter.js';
+import { imageUploader } from '../helper/imageUploader.js';
+import ApiError, { httpStatus } from '../middleware/error.js';
+import ServicesClass from '../service/services/services.service.js';
 
 const service = new ServicesClass();
 //create a service
