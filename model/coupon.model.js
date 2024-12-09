@@ -5,12 +5,14 @@ const couponSchema = new mongoose.Schema(
         name: {
             type: String,
             required: true,
+            unique: true,
         },
         code: {
             type: String,
             required: true,
+            unique: true,
         },
-        type: {
+        couponType: {
             type: String,
             enum: ['fixed', 'percentage'],
             required: true,
@@ -44,3 +46,6 @@ const couponSchema = new mongoose.Schema(
         versionKey: false,
     }
 );
+
+const CouponModel = mongoose.model('coupon', couponSchema);
+export default CouponModel;
