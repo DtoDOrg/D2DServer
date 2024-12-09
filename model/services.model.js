@@ -13,6 +13,10 @@ const ServiceSchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
+        tax: {
+            type: Number,
+            required: true,
+        },
         duration: {
             type: Number,
             required: true,
