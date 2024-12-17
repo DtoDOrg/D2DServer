@@ -2,7 +2,8 @@ import addressRepository from '../../repository/address/address.repository.js';
 import ApiError, { httpStatus } from '../../middleware/error.js';
 
 class AddressService {
-    async createAddress(data) {
+    async createAddress(userId, street, landmark, city, state, zip) {
+        const data = { userId, street, landmark, city, state, zip };
         try {
             const result = await addressRepository.create(data);
             return result;
@@ -21,9 +22,9 @@ class AddressService {
             throw error;
         }
     }
-    async getAllAddress() {
+    async getAllAddress(userId) {
         try {
-            const result = await addressRepository.getAll();
+            const result = await addressRepository.getAll(userId);
             return result;
         } catch (error) {
             throw error;
@@ -48,4 +49,4 @@ class AddressService {
         }
     }
 }
-export default new AddressService();
+export default AddressService;

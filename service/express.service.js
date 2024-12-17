@@ -11,12 +11,14 @@ import { categoryRouter } from '../routes/category.route.js';
 import { adminRouter } from '../routes/admin/admin.route.js';
 import { OTPRouter } from '../routes/otp.route.js';
 import { cartRouter } from '../routes/cart.route.js';
+import { addressRouter } from '../routes/address.route.js';
 const PORT = CONFIG.PORT;
 export const startServer = app => {
     try {
         app.use(cors());
         app.use(express.json());
         app.use('/admin', adminRouter);
+        app.use('/address', addressRouter);
         //city
         app.use('/city', cityRouter);
         //state

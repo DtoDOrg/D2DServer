@@ -9,9 +9,9 @@ const addressRepository = {
             throw error;
         }
     },
-    getAll: async () => {
+    getAll: async userId => {
         try {
-            const result = await AddressModel.find();
+            const result = await AddressModel.find({ userId: userId }).select('-createdAt -updatedAt').populate({ path: 'city state', select: 'name -_id' });
             return result;
         } catch (error) {
             throw error;
@@ -19,7 +19,7 @@ const addressRepository = {
     },
     getById: async id => {
         try {
-            const result = await AddressModel.findById(id);
+            const result = await AddressModel.findById(id).populate({ path: 'city state', select: 'name -_id' });
             return result;
         } catch (error) {
             throw error;
