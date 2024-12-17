@@ -13,6 +13,10 @@ export const create = async (req, res, next) => {
 };
 export const update = async (req, res, next) => {
     try {
+        const name = req.body.name;
+        if (!name) {
+            throw new ApiError(httpStatus.badRequest, 'name is required');
+        }
         const city = await service.updateCity(req.params.id, req.body);
         res.status(200).json(FormattedData(true, city, 'city updated'));
     } catch (error) {

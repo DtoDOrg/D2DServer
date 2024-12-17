@@ -11,10 +11,10 @@ const cityRepository = {
         }
     },
     //update
-    update: async (id, name) => {
+    update: async (id, data) => {
         try {
-            const result = await CityModel.findByIdAndUpdate(id, name, {
-                new: true,
+            const result = await CityModel.findByIdAndUpdate(id, data, {
+                new: false,
             });
             return result;
         } catch (error) {
@@ -43,7 +43,7 @@ const cityRepository = {
     //find by id
     findById: async id => {
         try {
-            const result = await CityModel.findById(id).select('-createdAt -updatedAt');
+            const result = await CityModel.findById(id).select('-createdAt -updatedAt').populate({ path: 'state', select: 'name -_id' });
             return result;
         } catch (error) {
             throw error;
@@ -51,7 +51,7 @@ const cityRepository = {
     },
     findByStateId: async id => {
         try {
-            const result = await CityModel.find({ state: id }).select('-createdAt -updatedAt');
+            const result = await CityModel.find({ state: id }).select('-createdAt -updatedAt -state -_id');
             return result;
         } catch (error) {
             throw error;

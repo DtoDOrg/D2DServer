@@ -12,9 +12,9 @@ class CityService {
         }
     }
     //update
-    async updateCity(id, name) {
+    async updateCity(id, data) {
         try {
-            const city = await cityRepository.update(id, name);
+            const city = await cityRepository.update(id, data);
             if (!city) {
                 throw new ApiError(httpStatus.notFound, 'city not found');
             }

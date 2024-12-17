@@ -8,13 +8,14 @@ import { create, deleteCity, getAll, getById, getByState, update } from '../cont
 import { cityValidation } from '../validation/validation/city.validation.js';
 const router = express.Router();
 
-const role = CONFIG.SUPER_ADMIN_ROLE;
+const role = CONFIG.ADMIN_ROLE;
 
 router.get('/', getAll);
-router.get('/:id', getByState);
+router.get('/:id', getById);
+router.get('/state/:id', getByState);
 //authorized
 router.use(authorize([role]));
 router.post('/', cityValidation, create);
 router.delete('/:id', deleteCity);
-router.put('/:id', cityValidation, update);
+router.put('/:id', update);
 export { router as cityRouter };
