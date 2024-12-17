@@ -3,7 +3,11 @@ import CartModel from '../model/cart.model.js';
 const CartRepository = {
     getCart: async userId => {
         try {
-            const cart = await CartModel.findOne({ userId: userId });
+            const cart = await CartModel.findOne({ userId: userId })
+                .where({ orderPlaced: false })
+                .select('-createdAt -updatedAt -userId')
+                .populate({ path: 'services.service', select: '-updatedAt -createdAt -description -steps -category -status -warranty' });
+
             return cart;
         } catch (error) {
             throw error;
@@ -31,7 +35,6 @@ const CartRepository = {
     delete: async id => {
         try {
             const cart = await CartModel.findByIdAndDelete(id);
-            console.log(cart);
             return cart;
         } catch (error) {
             throw error;

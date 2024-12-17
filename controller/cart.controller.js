@@ -14,7 +14,7 @@ export const addToCart = async (req, res, next) => {
 
 export const getCart = async (req, res, next) => {
     try {
-        const result = await service.getCart(req.body.userId);
+        const result = await service.getCart(req.user.id);
         return res.status(httpStatus.created).json(FormattedData(true, result, 'cart'));
     } catch (error) {
         next(error);

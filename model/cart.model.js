@@ -16,8 +16,10 @@ const CartSchema = new Schema(
         grossTotal: { type: Number, default: 0 },
         discount: { type: Number, default: 0 },
         charges: { type: Number, required: true, default: 0 },
+        tax: { type: Number, required: true, default: 0 },
         total: { type: Number, default: 0 },
         coupon: { type: mongoose.Schema.Types.ObjectId, ref: 'coupon' },
+        orderPlaced: { type: Boolean, default: false },
     },
     { timestamps: true, versionKey: false }
 );
