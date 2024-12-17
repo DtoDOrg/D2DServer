@@ -8,7 +8,7 @@ import { getAll, getById, update, create, deleteState } from '../controller/addr
 import { stateValidation } from '../validation/validation/state.validation.js';
 const router = express.Router();
 
-const role = CONFIG.SUPER_ADMIN_ROLE;
+const role = CONFIG.ADMIN_ROLE;
 
 router.get('/', getAll);
 router.get('/:id', getById);

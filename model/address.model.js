@@ -24,6 +24,12 @@ const AddressSchema = new mongoose.Schema(
             required: true,
             default: 'India',
         },
+        type: {
+            type: String,
+            required: false,
+            default: 'home',
+            enum: ['home', 'work', 'other'],
+        },
         zip: {
             type: Number,
             required: true,
