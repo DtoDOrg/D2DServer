@@ -3,12 +3,12 @@ import cors from 'cors';
 import { CONFIG } from '../config/config.js';
 import { UserRouter } from '../routes/user.route.js';
 import { errorHandler } from '../middleware/error.js';
-import { SupportRouter } from '../routes/support.js';
+import { SupportRouter } from '../routes/support.route.js';
 import { cityRouter } from '../routes/city.route.js';
 import { stateRouter } from '../routes/state.route.js';
-import { serviceRouter } from '../routes/service/service.route.js';
+import { serviceRouter } from '../routes/service.route.js';
 import { categoryRouter } from '../routes/category.route.js';
-import { adminRouter } from '../routes/admin/admin.route.js';
+import { adminRouter } from '../routes/admin.route.js';
 import { OTPRouter } from '../routes/otp.route.js';
 import { cartRouter } from '../routes/cart.route.js';
 import { addressRouter } from '../routes/address.route.js';
@@ -19,27 +19,20 @@ export const startServer = app => {
         app.use(express.json());
         app.use('/admin', adminRouter);
         app.use('/address', addressRouter);
-        //city
-        app.use('/city', cityRouter);
-        //state
-        app.use('/state', stateRouter);
-        //service
-        app.use('/service', serviceRouter);
-        //category
-        app.use('/category', categoryRouter);
-        //user
-        app.use('/user', UserRouter);
-        //opt
-        app.use('/otp', OTPRouter);
-        //cart
         app.use('/cart', cartRouter);
-
+        app.use('/category', categoryRouter);
+        app.use('/city', cityRouter);
+        app.use('/otp', OTPRouter);
+        app.use('/state', stateRouter);
+        app.use('/service', serviceRouter);
         app.use('/support', SupportRouter);
+        app.use('/user', UserRouter);
         app.use(errorHandler);
         app.listen(PORT, () => {
             console.log(`App is running on Port ${PORT}`);
         });
     } catch (error) {
         console.log(error);
+        process.exit();
     }
 };

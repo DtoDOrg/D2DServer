@@ -1,0 +1,11 @@
+import express from 'express';
+import { createSupport, getSupport, getSupportById } from '../controller/support.js';
+import { CONFIG } from '../config/config.js';
+import authorize from '../middleware/authorization.middleware.js';
+const router = express.Router();
+const role = CONFIG.USER_ROLE;
+router.get('/', getSupport);
+router.get('/:id', getSupportById);
+router.use(authorize([role]));
+router.post('/', createSupport);
+export { router as SupportRouter };

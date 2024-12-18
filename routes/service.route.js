@@ -1,5 +1,5 @@
 import express from 'express';
-import { upload } from '../../middleware/multer.js';
+import { upload } from '../middleware/multer.js';
 import {
     createService,
     deleteService,
@@ -8,10 +8,10 @@ import {
     getServiceById,
     updateService,
     updateServiceImage,
-} from '../../controller/service.controller.js';
-import { CONFIG } from '../../config/config.js';
-import authorize from '../../middleware/authorization.middleware.js';
-import { updateServiceValidation } from '../../validation/validation/service.validation.js';
+} from '../controller/service.controller.js';
+import { CONFIG } from '../config/config.js';
+import authorize from '../middleware/authorization.middleware.js';
+import { updateServiceValidation } from '../validation/validation/service.validation.js';
 const router = express.Router();
 
 router.get('/', getAllServices);

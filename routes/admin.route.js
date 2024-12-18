@@ -1,7 +1,7 @@
 import express from 'express';
-import { changeStatus, create, deleteAdmin, getAll, getById, logIn } from '../../controller/admin.controller.js';
-import { CONFIG } from '../../config/config.js';
-import authorize from '../../middleware/authorization.middleware.js';
+import { changeStatus, create, deleteAdmin, getAll, getById, logIn } from '../controller/admin.controller.js';
+import { CONFIG } from '../config/config.js';
+import authorize from '../middleware/authorization.middleware.js';
 const route = express.Router();
 const role = CONFIG.ADMIN_ROLE;
 route.post('/login', logIn);

@@ -1,7 +1,6 @@
 import express from 'express';
 import { DbConnection } from './service/database.service.js';
 import { startServer } from './service/express.service.js';
-import { startRedis } from './helper/redis.js';
 const app = express();
 
 const start = async () => {

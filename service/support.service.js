@@ -19,7 +19,7 @@ class SupportService {
     //get
     async getAllSupports() {
         try {
-            const response = await this.supportRepository.get();
+            const response = await this.supportRepository.getAll();
             return response;
         } catch (error) {
             throw new ApiError(httpStatus.badRequest, error.message);
