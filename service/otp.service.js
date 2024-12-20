@@ -2,6 +2,7 @@ import { sendEmail } from '../helper/sendEmail.js';
 import { OTPTemplate } from '../helper/template/otpTemplate.js';
 import ApiError, { httpStatus } from '../middleware/error.js';
 import OTPRepository from '../repository/otp.repository.js';
+import ServiceProviderRepository from '../repository/serviceProvider.repository.js';
 import UserRepository from '../repository/user.js';
 
 class OTPService {
@@ -43,7 +44,7 @@ class OTPService {
         }
     }
     //verify otp
-    async verifyOtp(email, otp) {
+    async verifyOtp(email, otp, verificationFor) {
         try {
             if (!email || !otp) {
                 throw new ApiError(httpStatus.badRequest, 'email and otp are required');
@@ -55,12 +56,25 @@ class OTPService {
                         throw new ApiError(httpStatus.badRequest, 'otp expired');
                     }
                     await OTPRepository.deleteByEmail(email);
-                    const user = await UserRepository.getByEmail(email);
-                    if (!user) {
-                        throw new ApiError(httpStatus.notFound, 'user not found');
+
+                    switch (verificationFor) {
+                        case 'serviceProvider':
+                            const provider = await ServiceProviderRepository.findByEmail(email);
+                            if (!provider) {
+                                throw new ApiError(httpStatus.notFound, 'service provider not found');
+                            }
+                            await ServiceProviderRepository.update(provider.id, { isVerified: true });
+                            return 'OTP verified';
+                        case 'user':
+                            const user = await UserRepository.getByEmail(email);
+                            if (!user) {
+                                throw new ApiError(httpStatus.notFound, 'user not found');
+                            }
+                            await UserRepository.update(user.id, { isVerified: true });
+                            return 'OTP verified';
+                        default:
+                            throw new ApiError(httpStatus.badRequest, 'invalid verification for');
                     }
-                    await UserRepository.update(user.id, { isVerified: true });
-                    return 'OTP verified';
                 }
             }
             throw new ApiError(httpStatus.badRequest, 'invalid otp');

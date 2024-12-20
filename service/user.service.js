@@ -1,4 +1,4 @@
-import { regPayload, regToken, generateToken } from '../helper/authorization.js';
+import { generateToken } from '../helper/authorization.js';
 import { compare, encrypt } from '../helper/password.js';
 import UserRepository from '../repository/user.js';
 import ApiError, { httpStatus } from '../middleware/error.js';
@@ -51,7 +51,13 @@ class UserService {
                 userInfo = await UserRepository.create(user);
             }
             await this.otpService.sendOTP(user.email);
-            return userInfo;
+            const payload = {
+                id: userInfo._id,
+                role: 'user',
+                'email:': user.email,
+            };
+            const token = generateToken(payload);
+            return token;
         } catch (error) {
             throw error;
         }

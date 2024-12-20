@@ -2,6 +2,7 @@ import { verifyToken } from '../helper/authorization.js';
 import ApiError, { httpStatus } from './error.js';
 
 const authorize = roles => {
+    console.log(roles);
     return (req, res, next) => {
         try {
             const token = req.headers['authorization']?.split(' ')[1];

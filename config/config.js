@@ -9,7 +9,7 @@ export const CONFIG = Object.freeze({
     IMAGE_KIT_ID: process.env.IMAGE_KIT_ID,
     ADMIN_ROLE: process.env.ADMIN_ROLE,
     USER_ROLE: process.env.USER_ROLE,
-    SUPER_ADMIN_ROLE: process.env.SUPER_ADMIN_ROLE,
+    SERVICE_PROVIDER: process.env.SERVICE_PROVIDER,
     REDIS_HOST: process.env.REDIS_HOST,
     REDIS_PORT: process.env.REDIS_PORT,
     REDIS_PASSWORD: process.env.REDIS_PASSWORD,

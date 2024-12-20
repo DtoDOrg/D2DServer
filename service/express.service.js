@@ -13,6 +13,7 @@ import { OTPRouter } from '../routes/otp.route.js';
 import { cartRouter } from '../routes/cart.route.js';
 import { addressRouter } from '../routes/address.route.js';
 import { OrderRouter } from '../routes/order.route.js';
+import { serviceProviderRouter } from '../routes/serviceProvide.route.js';
 const PORT = CONFIG.PORT;
 export const startServer = app => {
     try {
@@ -27,6 +28,7 @@ export const startServer = app => {
         app.use('/order', OrderRouter);
         app.use('/state', stateRouter);
         app.use('/service', serviceRouter);
+        app.use('/service-provider', serviceProviderRouter);
         app.use('/support', SupportRouter);
         app.use('/user', UserRouter);
         app.use(errorHandler);
