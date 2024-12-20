@@ -12,6 +12,7 @@ import {
 import { upload } from '../middleware/multer.js';
 import { CONFIG } from '../config/config.js';
 import authorize from '../middleware/authorization.middleware.js';
+
 const router = express.Router();
 router.post('/', createServiceProvider);
 router.post('/login', login);
