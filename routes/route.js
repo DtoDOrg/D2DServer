@@ -12,6 +12,7 @@ import { cartRouter } from './cart.route.js';
 import { addressRouter } from './address.route.js';
 import { adminRouter } from './admin.route.js';
 import { RatingRouter } from './rating.route.js';
+import { walletRouter } from './wallet.route.js';
 const router = express.Router();
 const version = '/v1';
 router.use(`${version}/admin`, adminRouter);
@@ -27,5 +28,6 @@ router.use(`${version}/service`, serviceRouter);
 router.use(`${version}/service-provider`, serviceProviderRouter);
 router.use(`${version}/support`, SupportRouter);
 router.use(`${version}/user`, UserRouter);
+router.use(`${version}/wallet`, walletRouter);
 
 export { router };

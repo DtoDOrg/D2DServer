@@ -2,6 +2,7 @@ import { generateToken } from '../helper/authorization.js';
 import { compare, encrypt } from '../helper/password.js';
 import ApiError, { httpStatus } from '../middleware/error.js';
 import ServiceProviderRepository from '../repository/serviceProvider.repository.js';
+import WalletRepository from '../repository/wallet.repository.js';
 import OTPService from './otp.service.js';
 
 const repository = ServiceProviderRepository;
@@ -17,6 +18,9 @@ class ServiceProvider {
             }
             await this.otpService.sendOTP(data.email);
             const encPass = await encrypt(data.password);
+            const wallet = await WalletRepository.create();
+            console.log(wallet);
+            data.wallet = wallet.id;
             data.password = encPass;
             const service = await repository.create(data);
             if (!service) {

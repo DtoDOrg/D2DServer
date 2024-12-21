@@ -43,7 +43,7 @@ const ServiceProviderRepository = {
     },
     findById: async id => {
         try {
-            const result = await ServiceProviderModel.findById(id);
+            const result = await ServiceProviderModel.findById(id).populate({ path: 'wallet', select: 'balance' });
             return result;
         } catch (error) {
             throw error;

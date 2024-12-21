@@ -27,7 +27,6 @@ const serviceProviderSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
-
         avatar: {
             type: String,
             default: 'https://ik.imagekit.io/gvspmkmsw/avatar.webp',
@@ -44,6 +43,18 @@ const serviceProviderSchema = new mongoose.Schema(
                 ref: 'service',
             },
         ],
+        state: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'state',
+        },
+        city: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'city',
+        },
+        wallet: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'wallet',
+        },
     },
     {
         timestamps: true,

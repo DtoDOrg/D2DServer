@@ -79,7 +79,7 @@ export const updateImage = async (req, res, next) => {
 };
 export const updateStatus = async (req, res, next) => {
     try {
-        const serviceProvider = await service.update(req.params.id, req.body.status);
+        const serviceProvider = await service.update(req.params.id, req.body);
         res.status(201).json(FormattedData(true, serviceProvider, 'service provider updated'));
     } catch (error) {
         next(error);
