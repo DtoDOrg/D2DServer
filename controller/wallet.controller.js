@@ -6,7 +6,7 @@ const service = new WalletService();
 
 export const creditAmount = async (req, res, next) => {
     try {
-        const wallet = await service.creditAmount(req.user.id, req.body.amount);
+        const wallet = await service.creditAmount(req.user.id, req.body.amount, req.body.paymentId, req.body.message);
         return res.status(httpStatus.created).json(FormattedData(true, wallet, 'amount credited'));
     } catch (error) {
         next(error);
@@ -15,7 +15,7 @@ export const creditAmount = async (req, res, next) => {
 
 export const debitAmount = async (req, res, next) => {
     try {
-        const wallet = await service.debitAmount(req.user.id, req.body.amount);
+        const wallet = await service.debitAmount(req.user.id, req.body.amount, req.body.paymentId, req.body.message);
         return res.status(httpStatus.created).json(FormattedData(true, wallet, 'amount debited'));
     } catch (error) {
         next(error);
