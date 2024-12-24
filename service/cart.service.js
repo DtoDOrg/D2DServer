@@ -5,7 +5,7 @@ import serviceRepository from '../repository/service/services.repository.js';
 const externalCharge = 10;
 
 class CartService {
-    async addToCart(userId, serviceId) {
+    async addToCart(userId, serviceId, date, time) {
         try {
             const cart = await CartRepository.getCart(userId);
 
@@ -19,7 +19,7 @@ class CartService {
                 if (service) {
                     throw new ApiError(httpStatus.badRequest, 'service already added');
                 }
-                cart.services.push({ service: serviceId, quantity: 1 });
+                cart.services.push({ service: serviceId, quantity: 1, date, time });
                 cart.charges += serviceInfo.tax + externalCharge;
                 cart.grossTotal += serviceInfo.price;
                 cart.total = cart.grossTotal - cart.discount + cart.charges;
@@ -28,7 +28,7 @@ class CartService {
             }
             const data = {
                 userId,
-                services: [{ service: serviceId, quantity: 1 }],
+                services: [{ service: serviceId, quantity: 1, date, time }],
                 grossTotal: serviceInfo.price,
                 charges: serviceInfo.tax + externalCharge,
                 total: serviceInfo.price + serviceInfo.tax + externalCharge,
