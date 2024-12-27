@@ -16,6 +16,12 @@ const orderSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        address: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'address',
+            required: true,
+        },
+        alterNativeMobileNo: { type: String, default: '' },
         status: {
             type: String,
             enum: ['pending', 'placed', 'cancelled'],

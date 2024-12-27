@@ -63,7 +63,10 @@ const OrderRepository = {
     },
     updateOrderStatus: async (orderId, status) => {
         try {
-            const order = await OrderModel.findByIdAndUpdate(orderId, { status: status }, { new: true });
+            const order = await OrderModel.findByIdAndUpdate(orderId, { status: status }, { new: true }).populate({
+                path: 'address',
+                select: 'state city address',
+            });
             return order;
         } catch (error) {
             throw error;

@@ -5,11 +5,11 @@ const CartRepository = {
         try {
             const cart = await CartModel.findOne({ userId: userId })
                 .where({ orderPlaced: false })
-                .select('-createdAt -updatedAt -userId')
-                .populate({ path: 'services.service', select: '-updatedAt -createdAt -description -steps -category -status -warranty' });
+                .populate({ path: 'services.service', select: '-updatedAt -createdAt -description -steps  -status -warranty' });
 
             return cart;
         } catch (error) {
+            console.log(error);
             throw error;
         }
     },
@@ -25,6 +25,7 @@ const CartRepository = {
 
     update: async (id, data) => {
         try {
+            console.log(id);
             const cart = await CartModel.findByIdAndUpdate(id, data);
             return cart;
         } catch (error) {

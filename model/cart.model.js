@@ -13,8 +13,6 @@ const CartSchema = new Schema(
             ],
             required: true,
         },
-        alterNativeMobileNo: { type: String, default: '' },
-        notes: { type: String, default: '' },
         grossTotal: { type: Number, default: 0 },
         discount: { type: Number, default: 0 },
         charges: { type: Number, required: true, default: 0 },

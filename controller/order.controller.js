@@ -5,7 +5,7 @@ import OrderService from '../service/order.service.js';
 const service = new OrderService();
 export const createOrder = async (req, res, next) => {
     try {
-        const order = await service.createOrder(req.body.paymentId, req.user.id);
+        const order = await service.createOrder(req.body.paymentId, req.user.id, req.body.address, req.body.alterNativeMobileNo);
         return res.status(httpStatus.created).json(FormattedData(true, order, 'order created'));
     } catch (error) {
         next(error);
