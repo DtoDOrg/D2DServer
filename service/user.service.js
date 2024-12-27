@@ -1,119 +1,123 @@
-import { regPayload, regToken, token } from "../helper/authorization.js";
-import { compare, encrypt } from "../helper/password.js";
-import UserRepository from "../repository/user.js";
-import ApiError, { HTTPSTATUS } from "../middleware/error.js";
+import { generateToken } from '../helper/authorization.js';
+import { compare, encrypt } from '../helper/password.js';
+import UserRepository from '../repository/user.js';
+import ApiError, { httpStatus } from '../middleware/error.js';
+import OTPService from './otp.service.js';
 class UserService {
-  constructor() {
-    this.userRepository = new UserRepository();
-  }
-
-  //log in
-
-  async logIn(user) {
-    try {
-      const userInfo = await this.userRepository.getByEmail(user.email);
-      if (!userInfo) {
-        throw new ApiError(HTTPSTATUS.BADREQUEST, "user not found");
-      }
-      const verifyPassword = await compare(user.password, userInfo.password);
-      if (!verifyPassword) {
-        throw new ApiError(HTTPSTATUS.BADREQUEST, "invalid password");
-      }
-      const payload = {
-        id: userInfo._id,
-        role: 'user',
-      };
-      const signedToken = token(payload);
-      return signedToken;
-    } catch (error) {
-      throw new ApiError(HTTPSTATUS.BADREQUEST, error.message);
+    constructor() {
+        this.otpService = new OTPService();
     }
-  }
 
-  //registration
-  async registration(user) {
-    try {
-      const userInfo = await this.userRepository.getByEmail(user.email);
-      if (userInfo) {
-        throw new ApiError(HTTPSTATUS.BADREQUEST, "user already exists");
-      }
-      const encPass = await encrypt(user.password);
-      user.password = encPass;
-      const token = regToken(user);
+    //log in
 
-      //send token to email
-
-      return token;
-    } catch (error) {
-      throw error;
+    async logIn(user) {
+        try {
+            const userInfo = await UserRepository.getByEmail(user.email);
+            if (!userInfo) {
+                throw new ApiError(httpStatus.notFound, 'user not found');
+            }
+            const verifyPassword = await compare(user.password, userInfo.password);
+            if (!verifyPassword) {
+                throw new ApiError(httpStatus.badRequest, 'invalid password');
+            }
+            if (!userInfo.isVerified) {
+                throw new ApiError(httpStatus.badRequest, 'please verify your email');
+            }
+            if (!userInfo.status) {
+                throw new ApiError(httpStatus.badRequest, 'this account is deactivated');
+            }
+            const payload = {
+                id: userInfo._id,
+                role: 'user',
+                'email:': user.email,
+            };
+            const signedToken = generateToken(payload);
+            return signedToken;
+        } catch (error) {
+            throw error;
+        }
     }
-  }
 
-  //verify registration
-  async verifyRegistration(token) {
-    try {
-      const payload = regPayload(token);
-      // return payload;
-      const createdUser = await this.userRepository.create(payload);
-      return createdUser;
-    } catch (error) {
-      throw error;
+    //registration
+    async registration(user) {
+        try {
+            let userInfo = await UserRepository.getByEmail(user.email);
+            if (userInfo && userInfo.isVerified) {
+                throw new ApiError(httpStatus.badRequest, 'user already exists');
+            }
+            const encPass = await encrypt(user.password);
+            user.password = encPass;
+            if (!userInfo) {
+                userInfo = await UserRepository.create(user);
+            }
+            await this.otpService.sendOTP(user.email);
+            const payload = {
+                id: userInfo._id,
+                role: 'user',
+                'email:': user.email,
+            };
+            const token = generateToken(payload);
+            return token;
+        } catch (error) {
+            throw error;
+        }
     }
-  }
 
-  //create user
-
-  async createUser(user) {
-    try {
-      const encPass = await encrypt(user.password);
-      user.password = encPass;
-      const createdUser = await this.userRepository.createUser(user);
-      return createdUser;
-    } catch (error) {
-      throw error;
+    //get user by id
+    async getUserById(userId) {
+        try {
+            const user = await UserRepository.getById(userId);
+            return user;
+        } catch (error) {
+            throw error;
+        }
     }
-  }
 
-  //get user by id
-  async getUserById(userId) {
-    try {
-      const user = await this.userRepository.getById(userId);
-      return user;
-    } catch (error) {
-      throw error;
+    //get all users
+    async getAllUsers() {
+        try {
+            const users = await UserRepository.getAll();
+            return users;
+        } catch (error) {
+            throw error;
+        }
     }
-  }
 
-  //get all users
-  async getAllUsers() {
-    try {
-      const users = await this.userRepository.users();
-      return users;
-    } catch (error) {
-      throw error;
+    //update user
+
+    async updateUser(userId, user) {
+        try {
+            const updatedUser = await UserRepository.update(userId, user);
+            return updatedUser;
+        } catch (error) {
+            throw error;
+        }
     }
-  }
 
-  //update user
+    //delete user
 
-  async updateUser(userId, user) {
-    try {
-      const updatedUser = await this.userRepository.updateUser(userId, user);
-      return updatedUser;
-    } catch (error) {
-      throw error;
+    async deleteUser(userId) {
+        try {
+            const deletedUser = await UserRepository.delete(userId);
+            return deletedUser;
+        } catch (error) {
+            throw error;
+        }
     }
-  }
 
-  //delete user
-
-  async deleteUser(userId) {
-    try {
-      const deletedUser = await this.userRepository.deleteUser(userId);
-      return deletedUser;
-    } catch (error) {
-      throw error;
+    //change status
+    async changeStatus(userId) {
+        try {
+            const user = await UserRepository.getById(userId);
+            if (user) {
+                user.status = !user.status;
+                await user.save();
+                return user;
+            }
+            throw new ApiError(httpStatus.notFound, 'user not found');
+        } catch (error) {
+            throw error;
+        }
     }
-  }
 }
 export default UserService;
