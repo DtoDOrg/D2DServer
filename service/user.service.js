@@ -51,13 +51,8 @@ class UserService {
                 userInfo = await UserRepository.create(user);
             }
             await this.otpService.sendOTP(user.email);
-            const payload = {
-                id: userInfo._id,
-                role: 'user',
-                'email:': user.email,
-            };
-            const token = generateToken(payload);
-            return token;
+
+            return 'OTP sent to ' + user.email;
         } catch (error) {
             throw error;
         }
