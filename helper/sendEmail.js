@@ -1,12 +1,11 @@
 import nodemailer from 'nodemailer';
-
 import { CONFIG } from '../config/config.js';
 export const sendEmail = async options => {
-    console.log(CONFIG.EMAIL, CONFIG.PASSWORD);
     const transporter = nodemailer.createTransport({
-        host: 'smtp.mailgun.org',
-        port: 587,
-        secure: false,
+        service: 'Gmail',
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
         auth: {
             user: CONFIG.EMAIL,
             pass: CONFIG.PASSWORD,
