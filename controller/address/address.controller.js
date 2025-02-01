@@ -18,7 +18,7 @@ export const createAddress = async (req, res, next) => {
 export const getAllAddress = async (req, res, next) => {
     try {
         const result = await service.getAllAddress(req.user.id);
-        return res.status(httpStatus.created).json(FormattedData(true, result, 'address fetched'));
+        return res.status(httpStatus.success).json(FormattedData(true, result, 'address fetched'));
     } catch (error) {
         next(error);
     }

@@ -19,6 +19,7 @@ const CartRepository = {
             const cart = await CartModel.create(data);
             return cart;
         } catch (error) {
+            console.log('**********', error);
             throw error;
         }
     },

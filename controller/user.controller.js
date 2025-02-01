@@ -29,6 +29,15 @@ export const getProfile = async (req, res, next) => {
         next(error);
     }
 };
+export const getProfileByToken = async (req, res, next) => {
+    try {
+        console.log(req.user);
+        const user = await service.getUserById(req.user.id);
+        return res.status(httpStatus.success).json(FormattedData(true, user, 'user fetched'));
+    } catch (error) {
+        next(error);
+    }
+};
 export const getAll = async (req, res, next) => {
     try {
         const users = await service.getAllUsers();

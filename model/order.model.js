@@ -21,6 +21,8 @@ const orderSchema = new mongoose.Schema(
             ref: 'address',
             required: true,
         },
+        date: { type: String, required: true },
+        time: { type: String, required: true },
         alterNativeMobileNo: { type: String, default: '' },
         status: {
             type: String,
