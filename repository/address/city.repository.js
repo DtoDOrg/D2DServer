@@ -51,7 +51,7 @@ const cityRepository = {
     },
     findByStateId: async id => {
         try {
-            const result = await CityModel.find({ state: id }).select('-createdAt -updatedAt -state -_id');
+            const result = await CityModel.find({ state: id }).select('-createdAt -updatedAt -state');
             return result;
         } catch (error) {
             throw error;
