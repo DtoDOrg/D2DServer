@@ -4,6 +4,8 @@ import {
     createService,
     deleteService,
     getAllServices,
+    getPopularServices,
+    getRecentServices,
     getServiceByCategory,
     getServiceById,
     updateService,
@@ -15,6 +17,8 @@ import { updateServiceValidation } from '../validation/validation/service.valida
 const router = express.Router();
 
 router.get('/', getAllServices);
+router.get('/recent', getRecentServices);
+router.get('/top', getPopularServices);
 router.get('/:id', getServiceById);
 router.get('/category/:id', getServiceByCategory);
 

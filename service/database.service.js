@@ -7,13 +7,11 @@ export const DbConnection = async () => {
     try {
         const connection = await mongoose.connect(CONFIG.DATABASE);
         if (connection) {
-            console.log('Database connection established');
+            console.log('✅ Database Connected');
             return;
         }
         console.log(' connection error');
     } catch (error) {
-        console.log('database connection error');
-        console.log(error);
-        process.exit();
+        throw error;
     }
 };

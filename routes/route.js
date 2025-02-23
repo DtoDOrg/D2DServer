@@ -15,11 +15,14 @@ import { RatingRouter } from './rating.route.js';
 import { walletRouter } from './wallet.route.js';
 import { transactionRouter } from './transaction.route.js';
 import { jobRouter } from './job.route.js';
+import { bannerRouter } from './banner.route.js';
 const router = express.Router();
 const version = '/v1';
+//admin
 router.use(`${version}/admin`, adminRouter);
 router.use(`${version}/address`, addressRouter);
 router.use(`${version}/cart`, cartRouter);
+router.use(`${version}/banner`, bannerRouter);
 router.use(`${version}/category`, categoryRouter);
 router.use(`${version}/city`, cityRouter);
 router.use(`${version}/job`, jobRouter);

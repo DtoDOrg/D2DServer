@@ -3,13 +3,15 @@ import { changeStatus, create, deleteAdmin, getAll, getById, logIn } from '../co
 import { CONFIG } from '../config/config.js';
 import authorize from '../middleware/authorization.middleware.js';
 import { loginValidation } from '../validation/validation/login.validation.js';
-const route = express.Router();
+
+const router = express.Router();
+
 const role = CONFIG.ADMIN_ROLE;
-route.post('/login', loginValidation, logIn);
-route.post('/', create);
-route.use(authorize([role]));
-route.get('/', getAll);
-route.get('/:id', getById);
-route.put('/:id', changeStatus);
-route.delete('/:id', deleteAdmin);
-export { route as adminRouter };
+router.post('/create', create);
+router.post('/login', loginValidation, logIn);
+router.use(authorize([role]));
+router.get('/', getAll);
+router.get('/:id', getById);
+router.put('/status/:id', changeStatus);
+router.delete('/:id', deleteAdmin);
+export { router as adminRouter };

@@ -70,19 +70,7 @@ export const updateCategoryImage = async (req, res, next) => {
         next(error);
     }
 };
-export const updateBannerImage = async (req, res, next) => {
-    try {
-        const image = await imageUploader(req.file, 'categoryBanner');
-        const result = await service.updateCategory(req.params.id, { bannerImage: image });
-        if (!result) {
-            await imageDelete(image);
-            throw new ApiError(httpStatus.notFound, 'category not found');
-        }
-        return res.status(httpStatus.success).json(FormattedData(true, result, 'category updated'));
-    } catch (error) {
-        next(error);
-    }
-};
+
 export const updateCategoryStatus = async (req, res, next) => {
     try {
         const result = await service.changeStatus(req.params.id, req.body);
