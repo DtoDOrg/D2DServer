@@ -10,6 +10,7 @@ class ServicesClass {
             throw error;
         }
     }
+
     //update a service
     async updateService(id, data) {
         try {
@@ -38,6 +39,25 @@ class ServicesClass {
             throw error;
         }
     }
+    //get top rated services
+    async getTopRatedServices() {
+        try {
+            const service = await serviceRepository.getPopularServices();
+            return service;
+        } catch (error) {
+            throw error;
+        }
+    }
+    //get recent services
+    async getRecentServices() {
+        try {
+            const service = await serviceRepository.getRecentServices();
+            return service;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     //get service by category ID
     async getServiceByCategory(categoryId) {
         try {

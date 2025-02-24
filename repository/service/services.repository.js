@@ -30,6 +30,26 @@ const serviceRepository = {
             throw error;
         }
     },
+
+    //get recent services
+    getRecentServices: async () => {
+        try {
+            const service = await ServiceModel.find().sort({ createdAt: -1 }).limit(5);
+            return service;
+        } catch (error) {
+            throw error;
+        }
+    },
+    //get popular services
+
+    getPopularServices: async () => {
+        try {
+            const service = await ServiceModel.find().sort({ rating: -1 }).limit(5).populate('rating');
+            return service;
+        } catch (error) {
+            throw error;
+        }
+    },
     //get service by id
     getServiceById: async id => {
         try {

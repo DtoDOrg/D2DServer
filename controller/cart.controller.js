@@ -5,7 +5,6 @@ import CartService from '../service/cart.service.js';
 const service = new CartService();
 export const addToCart = async (req, res, next) => {
     try {
-        console.log('**************');
         const result = await service.addToCart(req.user.id, req.body.serviceId);
         return res.status(httpStatus.created).json(FormattedData(true, result, 'service added to cart'));
     } catch (error) {

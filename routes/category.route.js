@@ -4,7 +4,6 @@ import {
     deleteCategory,
     getAllCategories,
     getCategoryById,
-    updateBannerImage,
     updateCategory,
     updateCategoryImage,
     updateCategoryStatus,
@@ -24,7 +23,6 @@ const role = CONFIG.ADMIN_ROLE;
 router.use(authorize([role]));
 router.post('/', createCategoryValidation, createCategory);
 router.patch('/image/:id', upload.single('image'), updateCategoryImage);
-router.patch('/banner/:id', upload.single('banner'), updateBannerImage);
 router.patch('/:id', updateCategoryValidation, updateCategory);
 router.patch('/:id', updateCategoryValidation, updateCategory);
 router.patch('/status/:id', updateCategoryStatus);

@@ -90,3 +90,22 @@ export const updateServiceImage = async (req, res, next) => {
         next(error);
     }
 };
+
+//get recent services
+export const getRecentServices = async (req, res, next) => {
+    try {
+        const result = await service.getRecentServices();
+        return res.status(httpStatus.success).json(FormattedData(true, result, 'services fetched'));
+    } catch (error) {
+        next(error);
+    }
+};
+//get popular services
+export const getPopularServices = async (req, res, next) => {
+    try {
+        const result = await service.getTopRatedServices();
+        return res.status(httpStatus.success).json(FormattedData(true, result, 'services fetched'));
+    } catch (error) {
+        next(error);
+    }
+};
